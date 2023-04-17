@@ -31,7 +31,10 @@ import {
 export function Home() {
   return (
     <div className="mt-12">
-      <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+        <h1 className="w-64 sm:w-80 h-8 sm:h-10 position: absolute w-56 text-2xl font-semibold text-left text-[#181818]">Today's incoming order
+          <div className="w-40 sm:w-64 md:w-40 h-2 sm:h-1.5 ml-10 rounded-md bg-[#a64b2a]"/>
+        </h1>
+      {/* <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
         {statisticsCardsData.map(({ icon, title, footer, ...rest }) => (
           <StatisticsCard
             key={title}
@@ -251,7 +254,7 @@ export function Home() {
             )}
           </CardBody>
         </Card>
-      </div>
+      </div> */}
     </div>
   );
 }

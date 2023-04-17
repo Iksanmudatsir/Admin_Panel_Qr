@@ -14,7 +14,7 @@ import { authorsTableData, projectsTableData } from "@/data";
 export function Tables() {
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
-      <Card>
+      {/* <Card>
         <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
           <Typography variant="h6" color="white">
             Authors Table
@@ -213,7 +213,7 @@ export function Tables() {
             </tbody>
           </table>
         </CardBody>
-      </Card>
+      </Card> */}
     </div>
   );
 }

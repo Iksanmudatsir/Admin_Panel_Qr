@@ -13,7 +13,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav } = controller;
   const sidenavTypes = {
-    dark: "bg-gradient-to-br from-blue-gray-800 to-blue-gray-900",
+    dark: "from-blue-gray-800 to-blue-gray-900 bg-[#a64b2a]",
     white: "bg-white shadow-lg",
     transparent: "bg-transparent",
   };
@@ -30,12 +30,12 @@ export function Sidenav({ brandImg, brandName, routes }) {
         }`}
       >
         <Link to="/" className="flex items-center gap-4 py-6 px-8">
-          <Avatar src={brandImg} size="sm" />
+          <Avatar src={"/public/img/coffeescript.svg"} size="sm" />
           <Typography
             variant="h6"
             color={sidenavType === "dark" ? "white" : "blue-gray"}
           >
-            {brandName}
+            {"Kopi Riolo"}
           </Typography>
         </Link>
         <IconButton
@@ -51,16 +51,16 @@ export function Sidenav({ brandImg, brandName, routes }) {
       </div>
       <div className="m-4">
         {routes.map(({ layout, title, pages }, key) => (
-          <ul key={key} className="mb-4 flex flex-col gap-1">
+          <ul key={key} className="flex flex-col gap-1 flex-1">
             {title && (
               <li className="mx-3.5 mt-4 mb-2">
-                <Typography
+                {/* <Typography
                   variant="small"
                   color={sidenavType === "dark" ? "white" : "blue-gray"}
                   className="font-black uppercase opacity-75"
                 >
                   {title}
-                </Typography>
+                </Typography> */}
               </li>
             )}
             {pages.map(({ icon, name, path }) => (

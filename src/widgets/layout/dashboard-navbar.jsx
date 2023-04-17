@@ -127,7 +127,7 @@ export function DashboardNavbar() {
                     color="blue-gray"
                     className="mb-1 font-normal"
                   >
-                    <strong>New message</strong> from Laur
+                    <strong>New Order</strong> from Table 5
                   </Typography>
                   <Typography
                     variant="small"
@@ -140,7 +140,7 @@ export function DashboardNavbar() {
               </MenuItem>
               <MenuItem className="flex items-center gap-4">
                 <Avatar
-                  src="https://demos.creative-tim.com/material-dashboard/assets/img/small-logos/logo-spotify.svg"
+                  src="https://demos.creative-tim.com/material-dashboard/assets/img/team-4.jpg"
                   alt="item-1"
                   size="sm"
                   variant="circular"
@@ -151,14 +151,14 @@ export function DashboardNavbar() {
                     color="blue-gray"
                     className="mb-1 font-normal"
                   >
-                    <strong>New album</strong> by Travis Scott
+                    <strong>New Order</strong> from table 2
                   </Typography>
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="flex items-center gap-1 text-xs font-normal opacity-60"
                   >
-                    <ClockIcon className="h-3.5 w-3.5" /> 1 day ago
+                    <ClockIcon className="h-3.5 w-3.5" /> 5 minutes ago
                   </Typography>
                 </div>
               </MenuItem>
