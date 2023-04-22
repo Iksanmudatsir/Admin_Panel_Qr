@@ -20,19 +20,19 @@ export const routes = [
       {
         icon: <HomeIcon {...icon} />,
         name: "Order",
-        path: "/home",
+        path: "/Order",
         element: <Home />,
       },
       {
         icon: <UserCircleIcon {...icon} />,
         name: "food",
-        path: "/profile",
+        path: "/food",
         element: <Profile />,
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "receipt",
-        path: "/tables",
+        path: "/receipt",
         element: <Tables />,
       },
       // {
