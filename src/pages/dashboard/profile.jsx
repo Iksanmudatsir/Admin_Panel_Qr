@@ -1,28 +1,19 @@
 import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardFooter,
-  Avatar,
   Typography,
-  Tabs,
-  TabsHeader,
-  Tab,
-  Switch,
-  Tooltip,
   Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
 } from "@material-tailwind/react";
-import {
-  HomeIcon,
-  ChatBubbleLeftEllipsisIcon,
-  Cog6ToothIcon,
-  PencilIcon,
-} from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
-import { ProfileInfoCard, MessageCard } from "@/widgets/cards";
-import { platformSettingsData, conversationsData, projectsData } from "@/data";
+import React, { useState } from "react";
+import { foods, snack, drinks } from "../../data/dataFood"
 
 export function Profile() {
+  const [openTab, setOpenTab] = useState(1);
+
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <>
     <div className="mt-12">
@@ -30,215 +21,214 @@ export function Profile() {
         Available Dishes
       </Typography>
       </div>
-      <div className="w-96 ">
-              <Tabs value="app">
-                <TabsHeader>
-                  <Tab value="app">
-                    <HomeIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-                    App
-                  </Tab>
-                  <Tab value="message">
-                    <ChatBubbleLeftEllipsisIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
-                    Message
-                  </Tab>
-                  <Tab value="settings">
-                    <Cog6ToothIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-                    Settings
-                  </Tab>
-                </TabsHeader>
-              </Tabs>
+      <div className="container mt-12 justify-center items-center">
+        <div className="flex flex-col items-center justify-center">
+          <ul className="flex space-x-8">
+            <li>
+              <a
+                href="#"
+                onClick={() => setOpenTab(1)}
+                className={` ${openTab === 1 ? "bg-[#a64b2a] text-white font-medium text-center" : ""} inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] shadow`}
+                >
+                Foods
+              </a>
+             </li>
+             <li>
+              <a
+                href="#"
+                onClick={() => setOpenTab(2)}
+                className={` ${openTab === 2 ? "bg-[#a64b2a] text-white font-medium text-center" : ""} inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] rounded shadow`}
+              >
+                Snack
+              </a>
+             </li>
+             <li>
+              <a
+                href="#"
+                onClick={() => setOpenTab(3)}
+                className={` ${openTab === 3 ? "bg-[#a64b2a] text-white font-medium text-center" : ""} inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] rounded shadow`}
+              >
+                Drinks
+              </a>
+             </li>
+          </ul>
+          <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]"/>
+          <div className="p-3 mt-6 w-full">
+            <div className={openTab === 1 ? "block" : "hidden"}>
+              {" "}
+              {foods.map(item => (
+                <div key={item.foods} className="flex justify-between items-center">
+                  <small className="pb-2 flex items-center text-sm text-left gap-1 font-semibold text-[#c50d11]">
+                    {item.name}
+                  </small>
+                  <small className="text-sm font-medium text-left text-[#181818]/50">
+                    {item.dish} Dish
+                  </small>
+                </div>
+              ))}
             </div>
+            <div className={openTab === 2 ? "block" : "hidden"}>
+            {snack.map(item => (
+              <div key={item.snack} className="flex justify-between items-center">
+                <small className="pb-2 flex items-center text-sm text-left gap-1 font-semibold text-[#c50d11]">
+                  {item.name}
+                  </small>
+                <small className="text-sm font-medium text-left text-[#181818]/50">
+                  {item.dish} Dish
+                  </small>
+              </div>
+               ))}
+              </div>
+            <div className={openTab === 3 ? "block" : "hidden"}>
+             {drinks.map(item => (
+              <div key={item.drinks} className="flex justify-between item-center">
+                <small className="pb-2 flex items-center text-sm text-left gap-1 font-semibold text-[#c50d11]">
+                  {item.name}
+                </small>
+                <small className="text-sm font-medium text-left text-[#181818]/50">
+                  {item.dish} Dish
+                </small>
+                </div>
+             ))}
+            </div>
+          </div>
+        </div>
+        <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]"/>
+            <div>
+              <div className="flex w-max space-x-52 mx-auto mt-5 items-center justify-center">
+                <Button className="bg-[#a64b2a] font-medium w-36 rounded-[20px] shadow" onClick={() => setShowModal(true)}>+ add new</Button>
+                 {showModal && (
+                   <Modal onClose={() => setShowModal(false)} />
+                 )}
+                <Button
+                  className="bg-[#a64b2a] font-medium w-36 rounded-[20px] shadow"
+                  ripple={true}
+                >
+                  - Remove
+                </Button>
+              </div>
+            </div>
+      </div>
     </>
   );
 }
 
 export default Profile;
 
- {/* <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url(https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80)] bg-cover	bg-center">
-        <div className="absolute inset-0 h-full w-full bg-blue-500/50" />
-      </div>
-      <Card className="mx-3 -mt-16 mb-6 lg:mx-4">
-        <CardBody className="p-4">
-          <div className="mb-10 flex items-center justify-between gap-6">
-            <div className="flex items-center gap-6">
-              <Avatar
-                src="/img/bruce-mars.jpeg"
-                alt="bruce-mars"
-                size="xl"
-                className="rounded-lg shadow-lg shadow-blue-gray-500/40"
-              />
-              <div>
-                <Typography variant="h5" color="blue-gray" className="mb-1">
-                  Richard Davis
-                </Typography>
-                <Typography
-                  variant="small"
-                  className="font-normal text-blue-gray-600"
-                >
-                  CEO / Co-Founder
-                </Typography>
-              </div>
-            </div>
-            <div className="w-96">
-              <Tabs value="app">
-                <TabsHeader>
-                  <Tab value="app">
-                    <HomeIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-                    App
-                  </Tab>
-                  <Tab value="message">
-                    <ChatBubbleLeftEllipsisIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
-                    Message
-                  </Tab>
-                  <Tab value="settings">
-                    <Cog6ToothIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-                    Settings
-                  </Tab>
-                </TabsHeader>
-              </Tabs>
-            </div>
-          </div>
-          <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 xl:grid-cols-3">
-            <div>
-              <Typography variant="h6" color="blue-gray" className="mb-3">
-                Platform Settings
-              </Typography>
-              <div className="flex flex-col gap-12">
-                {platformSettingsData.map(({ title, options }) => (
-                  <div key={title}>
-                    <Typography className="mb-4 block text-xs font-semibold uppercase text-blue-gray-500">
-                      {title}
-                    </Typography>
-                    <div className="flex flex-col gap-6">
-                      {options.map(({ checked, label }) => (
-                        <Switch
-                          key={label}
-                          id={label}
-                          label={label}
-                          defaultChecked={checked}
-                          labelProps={{
-                            className: "text-sm font-normal text-blue-gray-500",
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <ProfileInfoCard
-              title="Profile Information"
-              description="Hi, I'm Alec Thompson, Decisions: If you can't decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
-              details={{
-                "first name": "Alec M. Thompson",
-                mobile: "(44) 123 1234 123",
-                email: "alecthompson@mail.com",
-                location: "USA",
-                social: (
-                  <div className="flex items-center gap-4">
-                    <i className="fa-brands fa-facebook text-blue-700" />
-                    <i className="fa-brands fa-twitter text-blue-400" />
-                    <i className="fa-brands fa-instagram text-purple-500" />
-                  </div>
-                ),
-              }}
-              action={
-                <Tooltip content="Edit Profile">
-                  <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
-                </Tooltip>
-              }
-            />
-            <div>
-              <Typography variant="h6" color="blue-gray" className="mb-3">
-                Platform Settings
-              </Typography>
-              <ul className="flex flex-col gap-6">
-                {conversationsData.map((props) => (
-                  <MessageCard
-                    key={props.name}
-                    {...props}
-                    action={
-                      <Button variant="text" size="sm">
-                        reply
-                      </Button>
-                    }
-                  />
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="px-4 pb-4">
-            <Typography variant="h6" color="blue-gray" className="mb-2">
-              Projects
-            </Typography>
-            <Typography
-              variant="small"
-              className="font-normal text-blue-gray-500"
-            >
-              Architects design houses
-            </Typography>
-            <div className="mt-6 grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-4">
-              {projectsData.map(
-                ({ img, title, description, tag, route, members }) => (
-                  <Card key={title} color="transparent" shadow={false}>
-                    <CardHeader
-                      floated={false}
-                      color="gray"
-                      className="mx-0 mt-0 mb-4 h-64 xl:h-40"
-                    >
-                      <img
-                        src={img}
-                        alt={title}
-                        className="h-full w-full object-cover"
-                      />
-                    </CardHeader>
-                    <CardBody className="py-0 px-1">
-                      <Typography
-                        variant="small"
-                        className="font-normal text-blue-gray-500"
+function Modal({ onClose }) {
+  const [image, setImage] = useState(null);
+
+  function handleFileUpload(e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      setImage(event.target.result);
+    };
+
+    reader.readAsDataURL(file);
+  }
+  
+  function handleRemoveImage() {
+    setImage(null);
+  }
+
+  return (
+    <div className="fixed z-10 inset-0 overflow-y-auto">
+      <div className="flex mx-auto items-center justify-center min-h-screen">
+        <div className="fixed inset-0 bg-black opacity-50"></div>
+        <div className="bg-[#F3F3F3] rounded-[5px] w-6/12 p-6 relative">
+          <h2 className="text-xl font-medium mb-3">Add New</h2>
+           <form className="space-y-3">
+          <div>
+              <div className="flex items-center justify-center w-full">
+                <label
+                  className="relative flex flex-col w-full h-32 border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                    
+                      {image && (
+                        <img src={image} alt="preview" className="absolute w-full h-full object-cover" />
+                      )}
+                    
+                    <div className="flex flex-col items-center justify-center pt-7">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`w-8 h-8 text-gray-400 ${
+                          image ? 'hidden' : 'group-hover:text-gray-600'
+                        }`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
                       >
-                        {tag}
-                      </Typography>
-                      <Typography
-                        variant="h5"
-                        color="blue-gray"
-                        className="mt-1 mb-2"
-                      >
-                        {title}
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        className="font-normal text-blue-gray-500"
-                      >
-                        {description}
-                      </Typography>
-                    </CardBody>
-                    <CardFooter className="mt-6 flex items-center justify-between py-0 px-1">
-                      <Link to={route}>
-                        <Button variant="outlined" size="sm">
-                          view project
-                        </Button>
-                      </Link>
-                      <div>
-                        {members.map(({ img, name }, key) => (
-                          <Tooltip key={name} content={name}>
-                            <Avatar
-                              src={img}
-                              alt={name}
-                              size="xs"
-                              variant="circular"
-                              className={`cursor-pointer border-2 border-white ${
-                                key === 0 ? "" : "-ml-2.5"
-                              }`}
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoint="round"
+                          stroke-width="2"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        ></path>
+                      </svg>
+                      <p
+                         className={`pt-1 text-sm tracking-wider text-gray-400 ${
+                          image ? 'hidden' : 'group-hover:text-gray-600'
+                        }`}
+                        >
+                          Upload Image
+                        </p>
+                        <svg
+                           xmlns="http://www.w3.org/2000/svg"
+                           className={`absolute top-0 right-0 w-6 h-6 text-gray-600 ${
+                             image ? 'block' : 'hidden'
+                           }`}
+                           fill="none"
+                           viewBox="0 0 24 24"
+                           stroke="currentColor"
+                           onClick={handleRemoveImage}
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"
                             />
-                          </Tooltip>
-                        ))}
-                      </div>
-                    </CardFooter>
-                  </Card>
-                )
-              )}
-            </div>
+                           </svg>
+                    </div>
+                      <input 
+                        type="file" 
+                        id="image" 
+                        name="image" 
+                        className="opacity-0 absolute top-0 left-0 w-full h-full" 
+                        onChange={handleFileUpload} 
+                        />
+                  </label>
+              </div>
           </div>
-        </CardBody>
-      </Card> */}
+          <div>
+            <label htmlFor="snackName" className="block font-medium">Snack Name</label>
+            <input type="text" id="snackName" name="snackName" className="w-full" />
+          </div>
+          <div>
+            <label htmlFor="category" className="block font-medium">Category</label>
+            <select id="category" name="category" className="w-full">
+              <option value="">Select a category</option>
+              <option value="appetizers">Appetizers</option>
+              <option value="entrees">Entrees</option>
+              <option value="desserts">Desserts</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="price" className="block font-medium">Price</label>
+            <input type="number" id="price" name="price" className="w-full" />
+          </div>
+          <div>
+            <label htmlFor="description" className="block font-medium">Description</label>
+            <textarea id="description" name="description" rows="3" className="w-full"></textarea>
+          </div>
+          <div className="mt-6">
+            <Button type="submit" className="bg-[#a64b2a] text-white rounded-md py-2 px-4 font-medium" ripple={true}>Add Food</Button>
+            <Button onClick={onClose} className="bg-gray-400 text-white rounded-md py-2 px-4 font-medium ml-2" ripple={true}>Close Modal</Button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  );
+}

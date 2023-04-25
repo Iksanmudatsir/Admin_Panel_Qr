@@ -14,6 +14,42 @@ import { authorsTableData, projectsTableData } from "@/data";
 export function Tables() {
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
+      <table className="table-auto w-full border-collapse border border-gray-400">
+  <thead>
+    <tr>
+      <th className="px-4 py-2 bg-gray-200 border border-gray-400">Item</th>
+      <th className="px-4 py-2 bg-gray-200 border border-gray-400">Quantity</th>
+      <th className="px-4 py-2 bg-gray-200 border border-gray-400">Price</th>
+      <th className="px-4 py-2 bg-gray-200 border border-gray-400">Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td className="px-4 py-2 border border-gray-400">Chicken Teriyaki</td>
+      <td className="px-4 py-2 border border-gray-400">2</td>
+      <td className="px-4 py-2 border border-gray-400">8.99</td>
+      <td className="px-4 py-2 border border-gray-400">17.98</td>
+    </tr>
+    <tr>
+      <td className="px-4 py-2 border border-gray-400">Sushi Combo</td>
+      <td className="px-4 py-2 border border-gray-400">1</td>
+      <td className="px-4 py-2 border border-gray-400">14.99</td>
+      <td className="px-4 py-2 border border-gray-400">14.99</td>
+    </tr>
+    <tr>
+      <td className="px-4 py-2 border border-gray-400">Green Tea Ice Cream</td>
+      <td className="px-4 py-2 border border-gray-400">3</td>
+      <td className="px-4 py-2 border border-gray-400">3.99</td>
+      <td className="px-4 py-2 border border-gray-400">11.97</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colSpan="3" className="px-4 py-2 border border-gray-400 text-right font-bold">Total</td>
+      <td className="px-4 py-2 border border-gray-400 font-bold">44.94</td>
+    </tr>
+  </tfoot>
+</table>
       {/* <Card>
         <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
           <Typography variant="h6" color="white">
