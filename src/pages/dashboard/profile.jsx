@@ -9,6 +9,7 @@ import {
 } from "@material-tailwind/react";
 import React, { Fragment, useState } from "react";
 import { foods, snack, drinks } from "../../data/dataFood"
+import data from "@/data/dataRemove";
 
 export function Profile() {
   const [openTab, setOpenTab] = useState(1);
@@ -136,35 +137,92 @@ function Modal({ onClose, remove }) {
     setImage(null);
   }
 
-  const [checked, setChecked] = useState(false);
+  const [checkedItems, setCheckedItems] = useState([]);
 
   const handleCheck = (event) => {
-    setChecked(event.target.checked);
+    const { value, checked } = event.target;
+    if (checked) {
+      setCheckedItems([...checkedItems, parseInt(value)]);
+    } else {
+      setCheckedItems(checkedItems.filter((id) => id !== parseInt(value)));
+    }
   };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      setCheckedItems(data.map((item) => item.id));
+    } else {
+      setCheckedItems([]);
+    }
+  };
+
+  const handleRemove = () => {
+    const updatedData = data.filter(item => !checkedItems.includes(item.id));
+    console.log("Removing Items: ", checkedItems)
+    setData(updatedData);
+    onClose();
+  };
+
 
   if (remove) {
     return (
       <div className="fixed z-10 inset-0 overflow-y-auto">
-        <div className="flex mx-auto items-center justify-center min-h-screen">
-          <div className="fixed inset-0 bg-black opacity-50"></div>
-          <div className="bg-[#f3f3f3] rounded-[5px] w-3/5 p-6 relative">
-            <h2 className="text-xl font-medium mb-3">Select Dishes To Remove</h2>
-            <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  className="form-checkbox h-5 w-5 text-[#a64b2a]"
-                  checked={checked}
-                  onChange={handleCheck}
-                />
-                <span className="text-sm font-medium"></span>
-            </label>
-            <div className="mt-6 flex justify-end">
-              <button type="submit" onClick={remove} className="bg-[#a64b2a] text-white rounded-md py-2 px-4 font-medium" ripple={true}>Remove</button>
-              <button onClick={onClose} className="bg-gray-400 text-white rounded-md py-2 px-4 font-medium ml-2" ripple={true}>Cancel</button>
+      <div className="flex mx-auto items-center justify-center min-h-screen">
+        <div className="fixed inset-0 bg-black opacity-50"></div>
+        <div className="bg-[#f3f3f3] rounded-[5px] w-3/5 p-6 relative">
+          <div className="relative flex justify-between">
+          <h2 className="text-xl font-medium mb-3">Select Dishes To Remove</h2>
+            <div className="top-0">
+                <button onClick={onClose}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 relative" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3.646 3.646a.5.5 0 01.708 0L10 9.293l5.646-5.647a.5.5 0 11.708.708L10.707 10l5.647 5.646a.5.5 0 01-.708.708L10 10.707l-5.646 5.647a.5.5 0 01-.708-.708L9.293 10 3.646 4.354a.5.5 0 010-.708z" clip-rule="evenodd" fill="black" />
+                  </svg>
+                </button>
+              </div>
             </div>
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              className="form-checkbox h-5 w-5 text-[#a64b2a]"
+              checked={checkedItems.length === data.length}
+              onChange={handleSelectAll}
+              ripple={true}
+            />
+            <span className="text-sm font-medium pt-1 pb-1">Select All</span>
+          </label>
+          {data.map((item) => (
+            <label className="flex items-center space-x-2" key={item.id}>
+              <input
+                type="checkbox"
+                className="form-checkbox h-5 w-5 text-[#a64b2a]"
+                value={item.id}
+                checked={checkedItems.includes(item.id)}
+                onChange={handleCheck}
+                ripple={true}
+              />
+              <span className="text-sm font-medium pt-1 pb-1">{item.label}</span>
+            </label>
+          ))}
+          <div className="mt-6 flex justify-end">
+            <button
+              type="submit"
+              onClick={() => {handleRemove(); onClose();}}
+              className="bg-[#a64b2a] text-white rounded-md py-2 px-4 font-medium"
+              ripple={true}
+            >
+              Remove
+            </button>
+            <button
+              onClick={() => setCheckedItems([])}
+              className="bg-gray-400 text-white rounded-md py-2 px-4 font-medium ml-2"
+              ripple={true}
+            >
+              Clear Selection
+            </button>
           </div>
         </div>
       </div>
+    </div>
     );
   }
   else {
@@ -178,7 +236,7 @@ function Modal({ onClose, remove }) {
               <div>
                 <div className="flex items-center justify-center w-full">
                   <label
-                    className="relative flex flex-col w-full h-44 border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300 overflow-auto">
+                    className="relative flex flex-col w-full h-32 border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300 overflow-auto">
                       <div className="absolute top-0 left-0 w-full h-full">
                         {image && (
                           <img src={image} alt="preview" className="absolute w-full h-full object-cover top-0 left-0" />
@@ -252,6 +310,10 @@ function Modal({ onClose, remove }) {
             <div>
               <label htmlFor="price" className="block font-medium text-sm text-[#181818] pb-1">Price</label>
               <input type="number, text" id="price" name="price" placeholder="price" className="w-full rounded-[5px] bg-white pl-2 h-8"/>
+            </div>
+            <div>
+              <label htmlFor="dish" className="block font-medium text-sm text-[#181818] pb-1">Dish</label>
+              <input type="number, text" id="dish" name="dish" placeholder="dish" className="w-full rounded-[5px] bg-white pl-2 h-8"/>
             </div>
             <div>
               <label htmlFor="description" className="block font-medium text-sm text-[#181818] pb-1">Description</label>
