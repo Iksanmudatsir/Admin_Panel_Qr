@@ -13,43 +13,55 @@ import { authorsTableData, projectsTableData } from "@/data";
 
 export function Tables() {
   return (
-    <div className="mt-12 mb-8 flex flex-col gap-12">
-      <table className="table-auto w-full border-collapse border border-gray-400">
-  <thead>
-    <tr>
-      <th className="px-4 py-2 bg-gray-200 border border-gray-400">Item</th>
-      <th className="px-4 py-2 bg-gray-200 border border-gray-400">Quantity</th>
-      <th className="px-4 py-2 bg-gray-200 border border-gray-400">Price</th>
-      <th className="px-4 py-2 bg-gray-200 border border-gray-400">Subtotal</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td className="px-4 py-2 border border-gray-400">Chicken Teriyaki</td>
-      <td className="px-4 py-2 border border-gray-400">2</td>
-      <td className="px-4 py-2 border border-gray-400">8.99</td>
-      <td className="px-4 py-2 border border-gray-400">17.98</td>
-    </tr>
-    <tr>
-      <td className="px-4 py-2 border border-gray-400">Sushi Combo</td>
-      <td className="px-4 py-2 border border-gray-400">1</td>
-      <td className="px-4 py-2 border border-gray-400">14.99</td>
-      <td className="px-4 py-2 border border-gray-400">14.99</td>
-    </tr>
-    <tr>
-      <td className="px-4 py-2 border border-gray-400">Green Tea Ice Cream</td>
-      <td className="px-4 py-2 border border-gray-400">3</td>
-      <td className="px-4 py-2 border border-gray-400">3.99</td>
-      <td className="px-4 py-2 border border-gray-400">11.97</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colSpan="3" className="px-4 py-2 border border-gray-400 text-right font-bold">Total</td>
-      <td className="px-4 py-2 border border-gray-400 font-bold">44.94</td>
-    </tr>
-  </tfoot>
-</table>
+    <>
+      <div className="flex items-center justify-between">
+        <div className="mt-12">
+          <Typography color="textPrimary" className="w-56 h-8 text-2xl font-medium text-left text-black">
+            Today's Receipts
+          </Typography>
+        </div>
+        <div className="relative my-3 md:w-48 mt-14">
+          <select
+            id="id-01"
+            name="id-01"
+            required
+            className="text-white rounded-[5px] relative h-6 w-full appearance-none border-b border-slate-200 bg-[#a64b2a] px-4 text-sm text-slate-500 outline-none transition-all autofill:bg-white focus:border-emerald-500 focus-visible:outline-none focus:focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
+          >
+            <option value="1">Today's</option>
+            <option value="2">This month's</option>
+            <option value="3">This year's</option>
+          </select>
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="pointer-events-none absolute top-1 right-2 h-5 w-5 fill-slate-400 transition-all peer-focus:fill-emerald-500 peer-disabled:cursor-not-allowed"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-labelledby="title-01 description-01"
+            role="graphics-symbol"
+          >
+            <title id="title-01">Arrow Icon</title>
+            <desc id="description-01">Arrow incon of the select list.</desc>
+            <path 
+              fillRule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
+      <div className="flex items-center justify-between ml-10">
+        <Typography variant="h6">
+          Costumer Table :
+        </Typography>
+      </div>
+    </>
+  );
+}
+
+export default Tables;
+
+
       {/* <Card>
         <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
           <Typography variant="h6" color="white">
@@ -250,8 +262,4 @@ export function Tables() {
           </table>
         </CardBody>
       </Card> */}
-    </div>
-  );
-}
 
-export default Tables;

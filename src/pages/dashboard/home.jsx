@@ -33,7 +33,7 @@ import {
 export function Home() {
   return (
     <div className="mt-12">
-       <Typography variant="h6" color="blue-gray" className="text-2xl font-semibold text-left text-[#181818]">
+       <Typography className="w-full h-8 text-2xl font-medium text-[#181818]">
           Today's incoming order
         </Typography>
       <div className="mb-10 w-40 sm:w-64 md:w-40 h-2 sm:h-1.5 ml-10 rounded-md bg-[#a64b2a]"/>
@@ -47,7 +47,7 @@ export function Home() {
                 id="id-01"
                 name="id-01"
                 required
-                className=" bg-[#eae0e5] rounded-[5px] peer relative h-6 w-full appearance-none border-b border-slate-200 bg-white px-4 text-sm text-slate-500 outline-none transition-all autofill:bg-white focus:border-emerald-500 focus-visible:outline-none focus:focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
+                className=" bg-[#eae0e5] rounded-[5px] relative h-6 w-full appearance-none border-b border-slate-200 bg-white px-4 text-sm text-slate-500 outline-none transition-all autofill:bg-white focus:border-emerald-500 focus-visible:outline-none focus:focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
               >
                 <option value="1">Order Pending</option>
                 <option value="2">Complete</option>

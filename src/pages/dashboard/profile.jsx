@@ -18,6 +18,21 @@ export function Profile() {
 
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
+  const EditModal = ({ isOpen, onClose, onSave, defaultValue }) => {
+    // Set up local state for the input value
+    const [value, setValue] = useState(defaultValue);
+  
+    // Handle the input value change
+    const handleChange = (e) => {
+      setValue(e.target.value);
+    };
+  
+    // Handle the save button click
+    const handleSave = () => {
+      onSave(value);
+    };
+  }
+
   return (
     <>
     <div className="mt-12">
@@ -32,70 +47,102 @@ export function Profile() {
               <a
                 href="#"
                 onClick={() => setOpenTab(1)}
-                className={` ${openTab === 1 ? "bg-[#a64b2a] text-white font-medium text-center" : ""} inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] shadow`}
-                >
+                className={`${
+                  openTab === 1 ? "bg-[#a64b2a] text-white font-medium text-center" : ""
+                } inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] shadow`}
+              >
                 Foods
               </a>
-             </li>
-             <li>
+            </li>
+            <li>
               <a
                 href="#"
                 onClick={() => setOpenTab(2)}
-                className={` ${openTab === 2 ? "bg-[#a64b2a] text-white font-medium text-center" : ""} inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] rounded shadow`}
+                className={`${
+                  openTab === 2 ? "bg-[#a64b2a] text-white font-medium text-center" : ""
+                } inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] rounded shadow`}
               >
                 Snack
               </a>
-             </li>
-             <li>
+            </li>
+            <li>
               <a
                 href="#"
                 onClick={() => setOpenTab(3)}
-                className={` ${openTab === 3 ? "bg-[#a64b2a] text-white font-medium text-center" : ""} inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] rounded shadow`}
+                className={`${
+                  openTab === 3 ? "bg-[#a64b2a] text-white font-medium text-center" : ""
+                } inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] rounded shadow`}
               >
                 Drinks
               </a>
-             </li>
+            </li>
           </ul>
-          <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]"/>
+          <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]" />
           <div className="p-3 mt-6 w-full">
             <div className={openTab === 1 ? "block" : "hidden"}>
-              {" "}
-              {foods.map(item => (
-                <div key={item.foods} className="flex justify-between items-center">
-                  <small className="pb-2 flex items-center text-sm text-left gap-1 font-semibold text-[#c50d11]">
-                    {item.name}
-                  </small>
-                  <small className="text-sm font-medium text-left text-[#181818]/50">
-                    {item.dish} Dish
-                  </small>
-                </div>
-              ))}
+              <table className="table-auto w-full">
+                <thead>
+                  <tr>
+                    <th className="px-4 py-2">Product Name</th>
+                    <th className="px-4 py-2">Dish</th>
+                    <th className="px-4 py-2">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {foods.map((item) => (
+                    <tr key={item.foods}>
+                      <td className="px-4 py-2 text-[#c50d11] font-semibold">{item.name}</td>
+                      <td className="px-4 py-2 text-[#808080]/[0.87]">{item.dish} Dish</td>
+                      <td className="px-4 py-2">{item.price}k</td>
+                      <Button className="px-4 py-2 text-black bg-transparent">Edit</Button>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
             <div className={openTab === 2 ? "block" : "hidden"}>
-            {snack.map(item => (
-              <div key={item.snack} className="flex justify-between items-center">
-                <small className="pb-2 flex items-center text-sm text-left gap-1 font-semibold text-[#c50d11]">
-                  {item.name}
-                  </small>
-                <small className="text-sm font-medium text-left text-[#181818]/50">
-                  {item.dish} Dish
-                  </small>
-              </div>
-               ))}
-              </div>
-            <div className={openTab === 3 ? "block" : "hidden"}>
-             {drinks.map(item => (
-              <div key={item.drinks} className="flex justify-between item-center">
-                <small className="pb-2 flex items-center text-sm text-left gap-1 font-semibold text-[#c50d11]">
-                  {item.name}
-                </small>
-                <small className="text-sm font-medium text-left text-[#181818]/50">
-                  {item.dish} Dish
-                </small>
-                </div>
-             ))}
+              <table className="table-auto w-full">
+                <thead>
+                  <tr>
+                    <th className="px-4 py-2">Product Name</th>
+                    <th className="px-4 py-2">Dish</th>
+                    <th className="px-4 py-2">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {snack.map((item) => (
+                    <tr key={item.snack}>
+                      <td className="px-4 py-2 text-[#c50d11] font-semibold">{item.name}</td>
+                      <td className="px-4 py-2 text-[#808080]/[0.87]">{item.dish} Dish</td>
+                      <td className="px-4 py-2">{item.price}k</td>
+                      <Button className="px-4 py-2 text-black bg-transparent">Edit</Button>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </div>
+            <div className={openTab === 3 ? "block" : "hidden"}>
+              <table className="table-auto w-full">
+                <thead>
+                  <tr>
+                    <th className="px-4 py-2">Product Name</th>
+                    <th className="px-4 py-2">Dish</th>
+                    <th className="px-4 py-2">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {drinks.map((item) => (
+                    <tr key={item.drinks}>
+                      <td className="px-4 py-2 text-[#c50d11] font-semibold">{item.name}</td>
+                      <td className="px-4 py-2 text-[#808080]/[0.87]">{item.dish} Dish</td>
+                      <td className="px-4 py-2">{item.price}k</td>
+                      <Button className="px-4 py-2 text-black bg-transparent">Edit</Button>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            </div>
         </div>
         <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]"/>
             <div>
