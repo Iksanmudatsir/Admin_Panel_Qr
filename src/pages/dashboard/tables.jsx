@@ -10,8 +10,12 @@ import {
 } from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
+import { foods, snack, drinks } from "@/data/dataFood";
 
 export function Tables() {
+  const Receipt = ({ order }) => {
+    const totalCost = order.reduce((total, item) => total + item.price, 0);
+  }
   return (
     <>
       <div className="flex items-center justify-between">
@@ -50,10 +54,28 @@ export function Tables() {
           </svg>
         </div>
       </div>
-      <div className="flex items-center justify-between ml-10">
+      <div className="flex items-center justify-between ml-10 mr-10">
         <Typography variant="h6">
           Costumer Table :
         </Typography>
+        <div className="20 h-6 text-xs text-left">
+          <Typography clasName="w-20 h-6 text-xs text-left text-[#de3905]">Receipt#:</Typography>
+        </div>
+        <div className="mt-4 p-4 border border-gray-400">
+          <ul>
+            {order.map((item) => (
+              <li key={item.id} className="flex justify-between py-2">
+                <span>{item.name}</span>
+                <span>${item.price.toFixed(2)}</span>
+              </li>
+            ))}
+          </ul>
+          <hr className="my-2" />
+          <div className="flex justify-between py-2">
+            <span className="font-bold">Total:</span>
+            <span className="font-bold">${totalCost.toFixed(2)}</span>
+          </div>
+      </div>
       </div>
     </>
   );
