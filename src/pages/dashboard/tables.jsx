@@ -61,21 +61,6 @@ export function Tables() {
         <div className="20 h-6 text-xs text-left">
           <Typography clasName="w-20 h-6 text-xs text-left text-[#de3905]">Receipt#:</Typography>
         </div>
-        <div className="mt-4 p-4 border border-gray-400">
-          <ul>
-            {order.map((item) => (
-              <li key={item.id} className="flex justify-between py-2">
-                <span>{item.name}</span>
-                <span>${item.price.toFixed(2)}</span>
-              </li>
-            ))}
-          </ul>
-          <hr className="my-2" />
-          <div className="flex justify-between py-2">
-            <span className="font-bold">Total:</span>
-            <span className="font-bold">${totalCost.toFixed(2)}</span>
-          </div>
-      </div>
       </div>
     </>
   );
