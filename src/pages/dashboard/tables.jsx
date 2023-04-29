@@ -11,11 +11,15 @@ import {
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
 import { foods, snack, drinks } from "@/data/dataFood";
+import { orderedItems, orderedItems1 } from "@/data/tableReceipt";
 
 export function Tables() {
-  const Receipt = ({ order }) => {
-    const totalCost = order.reduce((total, item) => total + item.price, 0);
-  }
+
+  const totalAmount = orderedItems.reduce((acc, item) => acc + item.quantity * item.price, 0);
+
+  const totalAmount1 = orderedItems1.reduce((acc, item) => acc + item.quantity * item.price, 0);
+
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -54,44 +58,164 @@ export function Tables() {
           </svg>
         </div>
       </div>
-      <div className="flex items-center justify-between ml-10 mr-10">
-        <Typography variant="h6">
-          Costumer Table :
-        </Typography>
-        <div className="w-32 h-6 text-xs text-left flex">
-          <svg
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="relative"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <path
-              d="M5 7.49984V1.6665H15V7.49984"
-              stroke="#DE3905"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.99984 15H3.33317C2.89114 15 2.46722 14.8244 2.15466 14.5118C1.8421 14.1993 1.6665 13.7754 1.6665 13.3333V9.16667C1.6665 8.72464 1.8421 8.30072 2.15466 7.98816C2.46722 7.6756 2.89114 7.5 3.33317 7.5H16.6665C17.1085 7.5 17.5325 7.6756 17.845 7.98816C18.1576 8.30072 18.3332 8.72464 18.3332 9.16667V13.3333C18.3332 13.7754 18.1576 14.1993 17.845 14.5118C17.5325 14.8244 17.1085 15 16.6665 15H14.9998"
-              stroke="#DE3905"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M15 11.6665H5V18.3332H15V11.6665Z"
-              stroke="#DE3905"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <Typography variant="h6" color="blue-gray" className="w-24 flex items-center pl-1 h-6 text-xs text-left text-[#de3905]">
-            Receipt# :
-          </Typography>
-          <Typography variant="h6" color="blue-gray" className="w-20 flex items-center text-xs text-left text-[#808080]">
-            002
-          </Typography>
+      <div className="mx-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Typography variant="h6">
+              Costumer Table :
+            </Typography>
+            <Typography variant="h6" className="pl-1">
+              2
+            </Typography>
+            </div>
+          <div className="w-32 h-6 text-xs text-left flex">
+            <svg
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="relative"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <path
+                d="M5 7.49984V1.6665H15V7.49984"
+                stroke="#DE3905"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4.99984 15H3.33317C2.89114 15 2.46722 14.8244 2.15466 14.5118C1.8421 14.1993 1.6665 13.7754 1.6665 13.3333V9.16667C1.6665 8.72464 1.8421 8.30072 2.15466 7.98816C2.46722 7.6756 2.89114 7.5 3.33317 7.5H16.6665C17.1085 7.5 17.5325 7.6756 17.845 7.98816C18.1576 8.30072 18.3332 8.72464 18.3332 9.16667V13.3333C18.3332 13.7754 18.1576 14.1993 17.845 14.5118C17.5325 14.8244 17.1085 15 16.6665 15H14.9998"
+                stroke="#DE3905"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15 11.6665H5V18.3332H15V11.6665Z"
+                stroke="#DE3905"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <Typography variant="h6" color="blue-gray" className="w-24 flex items-center pl-1 h-6 text-xs text-left text-[#de3905]">
+              Receipt# :
+            </Typography>
+            <Typography variant="h6" color="blue-gray" className="w-20 flex items-center text-xs text-left text-[#808080]">
+              002
+            </Typography>
+          </div>
         </div>
+        <div className="flex py-2">
+        <Typography variant="small" className="w-28 h-4 text-left text-[#808080]">
+            Payment method :
+          </Typography>
+        <Typography variant="small" className="w-34 h-4 text-left text-[#808080] pl-1">
+          Cash On Delivery
+        </Typography>
+        </div>
+        <table className="table-auto w-full text-left">
+          <thead>
+            <tr>
+              <th className="py-2 w-5/6">Ordered Items</th>
+              <th className="py-2">Qty.</th>
+              <th className="py-2">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orderedItems.map((item) => (
+              <tr key={item.id}>
+                <td className="py-2">{item.name}</td>
+                <td className="py-2">{item.quantity}</td>
+                <td className="py-2">{item.price * item.quantity}k</td>
+              </tr>
+            ))}
+            <div className="w-full h-px bg-[#de3905]/50 items-center ml-11 my-1"/>
+            <tr>
+              <td className="py-2 font-semibold">Total</td>
+              <td className="py-2"></td>
+              <td className="py-2 font-semibold">{totalAmount}k</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {/*  */}
+      <div className="w-full h-px bg-[#de3905]/50 items-center my-3"/>
+      {/*  */}
+      <div className="mx-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Typography variant="h6">
+              Costumer Table :
+            </Typography>
+            <Typography variant="h6" className="pl-1">
+              4
+            </Typography>
+            </div>
+          <div className="w-32 h-6 text-xs text-left flex">
+            <svg
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="relative"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <path
+                d="M5 7.49984V1.6665H15V7.49984"
+                stroke="#DE3905"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4.99984 15H3.33317C2.89114 15 2.46722 14.8244 2.15466 14.5118C1.8421 14.1993 1.6665 13.7754 1.6665 13.3333V9.16667C1.6665 8.72464 1.8421 8.30072 2.15466 7.98816C2.46722 7.6756 2.89114 7.5 3.33317 7.5H16.6665C17.1085 7.5 17.5325 7.6756 17.845 7.98816C18.1576 8.30072 18.3332 8.72464 18.3332 9.16667V13.3333C18.3332 13.7754 18.1576 14.1993 17.845 14.5118C17.5325 14.8244 17.1085 15 16.6665 15H14.9998"
+                stroke="#DE3905"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15 11.6665H5V18.3332H15V11.6665Z"
+                stroke="#DE3905"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <Typography variant="h6" color="blue-gray" className="w-24 flex items-center pl-1 h-6 text-xs text-left text-[#de3905]">
+              Receipt# :
+            </Typography>
+            <Typography variant="h6" color="blue-gray" className="w-20 flex items-center text-xs text-left text-[#808080]">
+              003
+            </Typography>
+          </div>
+        </div>
+        <div className="flex py-2">
+        <Typography variant="small" className="w-28 h-4 text-left text-[#808080]">
+            Payment method :
+          </Typography>
+        <Typography variant="small" className="w-34 h-4 text-left text-[#808080] pl-1">
+          Cash On Delivery
+        </Typography>
+        </div>
+        <table className="table-auto w-full text-left">
+          <thead>
+            <tr>
+              <th className="py-2 w-5/6">Ordered Items</th>
+              <th className="py-2">Qty.</th>
+              <th className="py-2">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orderedItems1.map((item) => (
+              <tr key={item.id}>
+                <td className="py-2">{item.name}</td>
+                <td className="py-2">{item.quantity}</td>
+                <td className="py-2">{item.price * item.quantity}k</td>
+              </tr>
+            ))}
+            <div className="w-full h-px bg-[#de3905]/50 items-center ml-11 my-1"/>
+            <tr>
+              <td className="py-2 font-semibold">Total</td>
+              <td className="py-2"></td>
+              <td className="py-2 font-semibold">{totalAmount1}k</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </>
   );
