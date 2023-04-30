@@ -29,6 +29,7 @@ import {
   projectsTableData,
   ordersOverviewData,
 } from "@/data";
+import { orderedItems, orderedItems1, orderedItems2 } from "@/data/tableReceipt";
 
 export function Home() {
   return (
@@ -40,7 +41,7 @@ export function Home() {
       <div className="bg-gray-400 px-2.5 rounded-lg border-white">
         <div className="flex items-center justify-between"> 
           <Typography variant="h6" color="blue-gray" className="">
-                Costumer Table: 5 
+                Costumer Table: {orderedItems[0].costumerTable}
             </Typography>
             <div className="relative my-3 md:w-60">
               <select
@@ -73,40 +74,40 @@ export function Home() {
             </div>
         </div>
         <div className="flex justify-between items-center">
-          <Typography variant="h6" color="blue-gray" className="pb-1 text-lg font-medium text-left text-[#181818]">
+        <Typography variant="h6" color="blue-gray" className="pb-1 text-lg font-medium text-left text-[#181818]">
             Order :
           </Typography>
           <Typography variant="h6" color="blue-gray" className="w-16 h-6 text-base font-medium text-left text-[#181818]">
-            Qy
+            Qy.
           </Typography>
-          </div>
-        <div className="flex justify-between items-center">
-          <Typography
-              variant="small"
-              className="pl-8 pb-2 flex items-center gap-1 font-normal text-blue-gray-600">
-              Bassang
-          </Typography>
-          <Typography variant="small" className="w-3.5 h-6 pr-14 text-sm font-medium text-left text-[#181818]/50">
-            1
-            </Typography> 
+        </div>
+        {orderedItems.map((item, index) => (
+        <div key={index}>
+          {item.items.map((menuItem, i) => (
+            <div className="flex justify-between items-center" key={i}>
+              <Typography
+                variant="small"
+                className="pl-8 pb-2 flex items-center gap-1 font-normal text-blue-gray-600"
+              >
+                {menuItem.name}
+              </Typography>
+              <Typography
+                variant="small"
+                className="w-3.5 h-6 pr-14 text-sm font-medium text-left text-[#181818]/50"
+              >
+                {menuItem.quantity}
+              </Typography>
             </div>
-          <div className="flex justify-between items-center">
-          <Typography
-              variant="small"
-              className="pl-8 pb-2 flex items-center gap-1 font-normal text-blue-gray-600">
-              Bubur Kacang Ijo
-          </Typography>
-          <Typography variant="small" className="w-3.5 h-6 pr-14 text-sm font-medium text-left text-[#181818]/50">
-            1
-            </Typography> 
-          </div>
+          ))}
+        </div>
+      ))}
       </div>
       <div className="mt-7">
       <div className="flex justify-center mb-7 ml-24 w-10/12 h-1.5 rounded-[15px] bg-[#a64b2a]"/>
       <div className="bg-gray-400 px-2.5 rounded-lg border-white">
         <div className="flex items-center justify-between"> 
           <Typography variant="h6" color="blue-gray" className="">
-                Costumer Table: 7 
+                Costumer Table: {orderedItems1[0].costumerTable} 
             </Typography>
             <div className="relative my-3 md:w-60">
               <select
@@ -145,37 +146,8 @@ export function Home() {
           <Typography variant="h6" color="blue-gray" className="w-16 h-6 text-base font-medium text-left text-[#181818]">
             Qy
           </Typography>
-          </div>
-        <div className="flex justify-between items-center">
-          <Typography
-              variant="small"
-              className="pl-8 pb-2 flex items-center gap-1 font-normal text-blue-gray-600">
-              Es Cokelat
-          </Typography>
-          <Typography variant="small" className="w-3.5 h-6 pr-14 text-sm font-medium text-left text-[#181818]/50">
-            2
-            </Typography> 
-            </div>
-          <div className="flex justify-between items-center">
-          <Typography
-              variant="small"
-              className="pl-8 pb-2 flex items-center gap-1 font-normal text-blue-gray-600">
-              Ubi Goreng
-          </Typography>
-          <Typography variant="small" className="w-3.5 h-6 pr-14 text-sm font-medium text-left text-[#181818]/50">
-            1
-            </Typography> 
-          </div>
-          <div className="flex justify-between items-center">
-          <Typography
-              variant="small"
-              className="pl-8 pb-2 flex items-center gap-1 font-normal text-blue-gray-600">
-              Roti Bakar Cokelat
-          </Typography>
-          <Typography variant="small" className="w-3.5 h-6 pr-14 text-sm font-medium text-left text-[#181818]/50">
-            1
-            </Typography> 
-          </div>
+          
+        </div>
       </div>
     </div>
     <div className="mt-7">
