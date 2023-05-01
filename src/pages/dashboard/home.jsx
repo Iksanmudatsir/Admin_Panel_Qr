@@ -146,8 +146,27 @@ export function Home() {
           <Typography variant="h6" color="blue-gray" className="w-16 h-6 text-base font-medium text-left text-[#181818]">
             Qy
           </Typography>
-          
-        </div>
+          </div>
+          {orderedItems1.map((item, index) => (
+            <div key={index}>
+              {item.items.map((menuItem, i) => (
+                <div className="flex justify-between items-center" key={i}>
+                  <Typography
+                    variant="small"
+                    className="pl-8 pb-2 flex items-center gap-1 font-normal text-blue-gray-600"
+                    >
+                      {menuItem.name}
+                    </Typography>
+                  <Typography
+                    variant="small"
+                    className="w-3.5 h-6 pr-14 text-sm font-medium text-left text-[#181818]/50"
+                    >
+                      {menuItem.quantity}
+                    </Typography>
+                </div>
+              ))}
+            </div>
+          ))}
       </div>
     </div>
     <div className="mt-7">
@@ -194,27 +213,27 @@ export function Home() {
           <Typography variant="h6" color="blue-gray" className="w-16 h-6 text-base font-medium text-left text-[#181818]">
             Qy
           </Typography>
-          </div>
-        <div className="flex justify-between items-center">
-          <Typography
-              variant="small"
-              className="pl-8 pb-2 flex items-center gap-1 font-normal text-blue-gray-600">
-              Es Cokelat
-          </Typography>
-          <Typography variant="small" className="w-3.5 h-6 pr-14 text-sm font-medium text-left text-[#181818]/50">
-            2
-            </Typography> 
+        </div>
+       {orderedItems2.map((item, index) => (
+        <div key={index}>
+          {item.items.map((menuItem, i) => (
+            <div className="flex justify-between items-center" key={i}>
+              <Typography
+                variant="small"
+                className="pl-8 pb-2 flex items-center gap-1 font-normal text-blue-gray-600"
+                >
+                  {menuItem.name}
+                </Typography>
+              <Typography
+                variant="small"
+                className="w-3.5 h-6 pr-14 text-sm font-medium text-left text-[#181818]/50"
+                >
+                  {menuItem.quantity}
+                </Typography>
             </div>
-          <div className="flex justify-between items-center">
-          <Typography
-              variant="small"
-              className="pl-8 pb-2 flex items-center gap-1 font-normal text-blue-gray-600">
-              Ubi Goreng
-          </Typography>
-          <Typography variant="small" className="w-3.5 h-6 pr-14 text-sm font-medium text-left text-[#181818]/50">
-            1
-            </Typography> 
-          </div>
+          ))}
+        </div>
+       ))}
       </div>
     </div>
   </div>
