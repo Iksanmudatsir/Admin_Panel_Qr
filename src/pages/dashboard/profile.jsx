@@ -94,7 +94,10 @@ export function Profile() {
                       <td className="px-4 py-2 text-[#c50d11] font-semibold">{item.name}</td>
                       <td className="px-4 py-2 text-[#808080]/[0.87]">{item.dish} Dish</td>
                       <td className="px-4 py-2">{item.price}k</td>
-                      <Button className="px-4 py-2 text-black bg-transparent">Edit</Button>
+                      <td className="px-4 py-2">
+                        <Button className="px-4 py-2 text-black bg-transparent">Edit</Button>
+                        {/* <Button className="ml-2 px-4 py-2 text-white bg-[#a64b2a]" onClick={() => removeItem(item)}>Remove</Button> */}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
