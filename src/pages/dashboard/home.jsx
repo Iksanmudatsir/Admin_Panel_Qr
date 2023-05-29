@@ -32,6 +32,16 @@ import {
 import { orderedItems, orderedItems1, orderedItems2 } from "@/data/tableReceipt";
 
 export function Home() {
+  const home = () => {
+    const [orderedItems, setOrderedItems] = useState([]);
+
+    const handleDoneButtonClick = (index) => {
+      const updatedItems = [...orderedItems];
+      updatedItems.splice(index, 1);
+      setOrderedItems(updatedItems);
+    };
+}
+
   return (
     <div className="mt-12">
        <Typography className="w-full h-8 text-2xl font-medium text-[#181818]">
@@ -99,9 +109,18 @@ export function Home() {
               </Typography>
             </div>
           ))}
+          <hr className="my-4 border-gray-300 w-2/4 mx-auto" />
+          <div className="flex justify-end">
+           <button 
+            className="bg-[#a64b2a] text-white w-20 px-4 py-2 mb-4 mr-1 rounded-lg"
+            onClick={() => handleDoneButtonClick(index)}
+          >
+            Done
+          </button>
+          </div>
         </div>
       ))}
-      </div>
+      {/* </div>
       <div className="mt-7">
       <div className="flex justify-center mb-7 ml-24 w-10/12 h-1.5 rounded-[15px] bg-[#a64b2a]"/>
       <div className="bg-gray-400 px-2.5 rounded-lg border-white">
@@ -165,6 +184,10 @@ export function Home() {
                     </Typography>
                 </div>
               ))}
+              <hr className="my-4 border-gray-300 w-2/4 mx-auto" />
+              <div className="flex justify-end">
+               <button className="bg-[#a64b2a] text-white w-20 px-4 py-2 mb-4 mr-1 rounded-lg">Done</button>
+              </div>
             </div>
           ))}
       </div>
@@ -234,7 +257,11 @@ export function Home() {
           ))}
         </div>
        ))}
-      </div>
+       <hr className="my-4 border-gray-300 w-2/4 mx-auto" />
+          <div className="flex justify-end">
+           <button className="bg-[#a64b2a] text-white w-20 px-4 py-2 mb-4 mr-1 rounded-lg">Done</button>
+          </div>
+      </div> */}
     </div>
   </div>
   );
