@@ -35,32 +35,35 @@ export const routes = [
         path: "/receipt",
         element: <Tables />,
       },
-      // {
-      //   icon: <BellIcon {...icon} />,
-      //   name: "notifactions",
-      //   path: "/notifactions",
-      //   element: <Notifications />,
-      // },
-    ],
-  },
-  {
-    title: "auth pages",
-    layout: "auth",
-    pages: [
-      {
-        icon: <ArrowRightOnRectangleIcon {...icon} />,
-        name: "sign in",
-        path: "/sign-in",
-        element: <SignIn />,
-      },
-      {
-        icon: <UserPlusIcon {...icon} />,
-        name: "sign up",
-        path: "/sign-up",
-        element: <SignUp />,
-      },
     ],
   },
 ];
 
 export default routes;
+
+// {
+//   title: "auth pages",
+//   layout: "auth",
+//   pages: [
+//     {
+//       icon: <ArrowRightOnRectangleIcon {...icon} />,
+//       name: "sign in",
+//       path: "/sign-in",
+//       element: <SignIn />,
+//     },
+//   ],
+// },
+
+ // {
+      //   icon: <BellIcon {...icon} />,
+      //   name: "notifactions",
+      //   path: "/notifactions",
+      //   element: <Notifications />,
+      // },
+
+  // {
+      //   icon: <UserPlusIcon {...icon} />,
+      //   name: "sign up",
+      //   path: "/sign-up",
+      //   element: <SignUp />,
+      // },
