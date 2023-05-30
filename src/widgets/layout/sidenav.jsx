@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Avatar,
@@ -8,6 +8,9 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
+import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
+import AxiosInstance from "@/utils/AxiosInstance";
+import { removeAuth } from "@/utils/auth";
 
 export function Sidenav({ brandImg, brandName, routes }) {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -17,19 +20,23 @@ export function Sidenav({ brandImg, brandName, routes }) {
     white: "bg-white shadow-lg",
     transparent: "bg-transparent",
   };
+  const navigate = useNavigate();
+
+  const onClickHandler = async () => {
+    removeAuth();
+    navigate('/login');
+  };
 
   return (
     <aside
-      className={`${sidenavTypes[sidenavType]} ${
-        openSidenav ? "translate-x-0" : "-translate-x-80"
-      } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0`}
+      className={`${sidenavTypes[sidenavType]} ${openSidenav ? "translate-x-0" : "-translate-x-80"
+        } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0`}
     >
       <div
-        className={`relative border-b ${
-          sidenavType === "dark" ? "border-white/20" : "border-blue-gray-50"
-        }`}
+        className={`relative border-b ${sidenavType === "dark" ? "border-white/20" : "border-blue-gray-50"
+          }`}
       >
-        <Link to="/" className="flex items-center gap-4 py-6 px-8">
+        <Link to="/home" className="flex items-center gap-4 py-6 px-8">
           <Avatar src={"/public/img/coffeescript.svg"} size="sm" />
           <Typography
             variant="h6"
@@ -73,8 +80,8 @@ export function Sidenav({ brandImg, brandName, routes }) {
                         isActive
                           ? sidenavColor
                           : sidenavType === "dark"
-                          ? "white"
-                          : "blue-gray"
+                            ? "white"
+                            : "blue-gray"
                       }
                       className="flex items-center gap-4 px-4 capitalize"
                       fullWidth
@@ -91,10 +98,25 @@ export function Sidenav({ brandImg, brandName, routes }) {
                 </NavLink>
               </li>
             ))}
+            <Button
+              variant="text"
+              color="white"
+              className={"flex items-center gap-4 px-4 capitalize" + sidenavTypes.transparent}
+              onClick={() => onClickHandler()}
+              fullWidth
+            >
+              <ArrowLeftOnRectangleIcon className="w-5 h-5 text-inherit flex" />
+              <Typography
+                color="inherit"
+                className="font-medium capitalize"
+              >
+                Logout
+              </Typography>
+            </Button>
           </ul>
         ))}
       </div>
-    </aside>
+    </aside >
   );
 }
 

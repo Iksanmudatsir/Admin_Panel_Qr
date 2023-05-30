@@ -1,16 +1,45 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardHeader,
   CardBody,
   CardFooter,
   Input,
-  Checkbox,
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { BASE_SIGNIN_ADMIN } from "../../utils/constant";
+import { storeAuth } from "@/utils/auth";
 
 export function SignIn() {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [isAuth, setIsAuth] = useState(true);
+
+  const navigate = useNavigate();
+
+  const onChangeHandler = (e, set) => {
+    set(e.target.value)
+  }
+
+  const onClickHandler = async () => {
+    await axios.post(BASE_SIGNIN_ADMIN, {
+      username,
+      password
+    }).then((res) => {
+      storeAuth(res.data);
+      navigate('/dashboard/order');
+    }).catch(() => {
+      setIsAuth(false);
+    });
+  }
+
+  useEffect(() => {
+    console.log(username, password);
+  }, [username, password])
+
   return (
     <>
       <img
@@ -29,15 +58,20 @@ export function SignIn() {
               Sign In
             </Typography>
           </CardHeader>
-          <CardBody className="flex flex-col gap-4">
-            <Input type="email" label="Email" size="lg" />
-            <Input type="password" label="Password" size="lg" />
-            <div className="-ml-2.5">
+          <CardBody className="flex flex-col gap-5">
+            {!isAuth ? (
+              <div className="border-red-400 text-red-700 text-center">
+                <strong class="font-bold">Invalid Login!</strong>
+              </div>
+            ) : null}
+            <Input type="text" label="Username" size="lg" value={username} onChange={(e) => onChangeHandler(e, setUsername)} required />
+            <Input type="password" label="Password" size="lg" value={password} onChange={(e) => onChangeHandler(e, setPassword)} required />
+            {/* <div className="-ml-2.5">
               <Checkbox label="Remember Me" />
-            </div>
+            </div> */}
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" fullWidth>
+            <Button variant="gradient" fullWidth onClick={() => onClickHandler()}>
               Sign In
             </Button>
             {/* <Typography variant="small" className="mt-6 flex justify-center">
@@ -55,7 +89,7 @@ export function SignIn() {
             </Typography> */}
           </CardFooter>
         </Card>
-      </div>
+      </div >
     </>
   );
 }
