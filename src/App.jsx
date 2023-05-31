@@ -13,8 +13,6 @@ function App() {
   useEffect(() => {
     if (!token) {
       navigate('/login')
-    } else {
-      navigate('/dashboard/order');
     }
   }, []);
 

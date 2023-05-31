@@ -49,30 +49,61 @@ export function Home() {
 
   useEffect(() => {
     fetchOrder();
-  }, [])
+  }, []) 
 
 
   return (
     <>
+    <div className="flex justify-between items-center mt-10">
+      <Typography className="w-full h-8 text-2xl font-medium text-[#181818]">
+          Today's incoming order
+        </Typography>
+       </div>
+       <div className="mb-7 w-40 sm:w-64 md:w-40 h-2 sm:h-1.5 ml-10 rounded-md bg-[#a64b2a]" />
       {
-        orders.filter((elem, id) => elem.status === 'sedang diproses').map((order, i) =>
-          <div div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">No Id: {order.costumer_id}</h2>
-            <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Table: {order.costumerTable}</h2>
-            <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
-              {
-                order.items.map((item, i) =>
-                  <li className="text-black">
-                    {item.title}
-                  </li>
-                )
-              }
-            </ul>
-            <Button href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={() => onClickHandler(order.order_id)}>
-              Done
-            </Button>
+        orders.filter((elem, id) => elem.status === "sedang diproses").map((order, i) => (
+          <div className="px-5" key={i}>
+            <div className="flex items-center justify-between w-full">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Costumer Table: {order.costumerTable}</h2>
+              <Button href="#" className="inline-flex flex justify-center w-24 h-7 items-center text-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 bg-[#a64b2a]" onClick={() => onClickHandler(order.order_id)}>
+                Done
+              </Button>
+            </div>
+            <h2 className="mb-2 mt-2 text-lg font-semibold text-gray-900 dark:text-white">No Id: {order.costumer_id}</h2>
+            <div className="flex items-center justify-between w-full">
+              <div className="flex justify-between items-center w-full">
+                <Typography variant="h6" color="blue-gray" className="pb-1 text-lg font-medium text-left text-[#181818]">
+                    Order :
+                  </Typography>
+                  <Typography variant="h6" color="blue-gray" className="w-16 h-6 text-base font-medium text-left text-[#181818]">
+                    Qy.
+                  </Typography>
+                </div>
+            </div>
+            <div className="flex justify-between items-center px-5">
+              <ul className="max-w-md space-y-1 text-gray-500 dark:text-gray-400">
+                {
+                  order.items.map((item, i) =>  
+                    <li className="text-[#808080]" key={i}>
+                      {item.title}
+                    </li>
+                  )
+                }
+              </ul>
+              <ul className="max-w-md space-y-1 mr-7 text-gray-500 dark:text-gray-400">
+                {
+                  order.items.map((item, i) =>  
+                    <li className="text-[#808080]" key={i}>
+                      {item.qty}
+                    </li>
+                  )
+                }
+              </ul>
+            </div>
+            <div className="w-full h-px bg-[#de3905]/50 items-center my-3"/>
           </div >
         )
+      )
       }
     </>
   );
