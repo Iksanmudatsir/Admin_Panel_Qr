@@ -4,7 +4,7 @@ import {
   TableCellsIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
+import { Order, Item, Receipt, Notifications } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
 
 const icon = {
@@ -17,21 +17,27 @@ export const routes = [
     pages: [
       {
         icon: <HomeIcon {...icon} />,
+        name: "Home",
+        path: "/home",
+        // element: <Order />,
+      },
+      {
+        icon: <HomeIcon {...icon} />,
         name: "Order",
-        path: "/Order",
-        element: <Home />,
+        path: "/order",
+        element: <Order />,
       },
       {
         icon: <TableCellsIcon {...icon} />,
-        name: "receipt",
+        name: "Receipt",
         path: "/receipt",
-        element: <Tables />,
+        element: <Receipt />,
       },
       {
         icon: <UserCircleIcon {...icon} />,
-        name: "food",
-        path: "/food",
-        element: <Profile />,
+        name: "Item",
+        path: "/item",
+        element: <Item />,
       },
     ],
   },

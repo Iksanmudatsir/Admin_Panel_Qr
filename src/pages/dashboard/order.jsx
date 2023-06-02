@@ -33,7 +33,7 @@ import {
 import { orderedItems, orderedItems1, orderedItems2 } from "@/data/tableReceipt";
 import AxiosInstance from "@/utils/AxiosInstance";
 
-export function Home() {
+export function Order() {
   const [orders, setOrders] = useState([]);
 
   const fetchOrder = async () => {
@@ -49,6 +49,7 @@ export function Home() {
 
   useEffect(() => {
     fetchOrder();
+    console.log(orders);
   }, []) 
 
 
@@ -69,7 +70,10 @@ export function Home() {
                 Done
               </Button>
             </div>
-            <h2 className="mb-2 mt-2 text-lg font-semibold text-gray-900 dark:text-white">No Id: {order.costumer_id}</h2>
+            <div className="flex items-center justify-between w-full">
+              <h2 className="mb-2 mt-2 text-lg font-semibold text-gray-900 dark:text-white">No Id: {order.costumer_id}</h2>
+              <h2 className="mb-2 mt-2 text-lg font-semibold text-gray-500 dark:text-gray-400">date: {new Date(order.create_at).toLocaleDateString('es-US', {day: 'numeric', month:'numeric', year:'numeric'})}</h2>
+            </div>
             <div className="flex items-center justify-between w-full">
               <div className="flex justify-between items-center w-full">
                 <Typography variant="h6" color="blue-gray" className="pb-1 text-lg font-medium text-left text-[#181818]">
@@ -188,4 +192,4 @@ export function Home() {
   //   );
 }
 
-export default Home;
+export default Order;

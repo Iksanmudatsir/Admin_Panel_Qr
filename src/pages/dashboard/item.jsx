@@ -12,7 +12,7 @@ import { foods, snack, drinks } from "../../data/dataFood"
 import data from "@/data/dataRemove";
 import AxiosInstance from "@/utils/AxiosInstance";
 
-export function Profile() {
+export function Item() {
   const [orders, setOrders] = useState([]);
 
   const fetchOrder = async () => {
@@ -51,7 +51,7 @@ export function Profile() {
     <>
     <div className="mt-12">
       <Typography className="w-56 h-8 text-2xl font-medium text-left text-black">
-        Pesanan yang sudah selesai
+        Items
       </Typography>
       </div>
       <div className="container mt-12 justify-center items-center">
@@ -180,7 +180,7 @@ export function Profile() {
   );
 }
 
-export default Profile;
+export default Item;
 
 
 // function Modal({ onClose, remove }) {

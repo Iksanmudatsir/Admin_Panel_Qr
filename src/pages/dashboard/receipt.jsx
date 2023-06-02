@@ -15,22 +15,16 @@ import { orderedItems, orderedItems1, orderedItems2 } from "@/data/tableReceipt"
 import AxiosInstance from "@/utils/AxiosInstance";
 import { useEffect, useState } from "react";
 
-export function Tables() {
+export function Receipt() {
   const [orders, setOrders] = useState([]);
 
   const fetchOrder = async () => {
     await AxiosInstance.get('/order').then((res) => setOrders(() => [...res.data]));
   }
 
-  const totalAmount = orderedItems[0].items.reduce((acc, item) => acc + item.quantity * item.price, 0);
-
-  const totalAmount1 = orderedItems1[0].items.reduce((acc, item) => acc + item.quantity * item.price, 0);
-
-  const totalAmount2 = orderedItems2[0].items.reduce((acc, item) => acc + item.quantity * item.price, 0);
 
   useEffect(() => {
     fetchOrder();
-    console.log(orders)
   }, []);
   return (
     <>
@@ -50,6 +44,7 @@ export function Tables() {
             <option value="1">Today's</option>
             <option value="2">This month's</option>
             <option value="3">This year's</option>
+            <option value="4">Canceled</option>
           </select>
 
           <svg
@@ -127,7 +122,7 @@ export function Tables() {
             {order.items.map((item) => (
               <tr key={item.id}>
                 <td className="py-2 text-[#808080]">{item.title}</td>
-                <td className="py-2 text-[#808080]">{item.quantity}</td>
+                <td className="py-2 text-[#808080]">{item.qty}</td>
                 <td className="py-2 text-[#808080]">Rp{item.price * 1}</td>
               </tr>
             ))}
@@ -135,7 +130,7 @@ export function Tables() {
             <tr>
               <td className="py-2 font-semibold">Total</td>
               <td className="py-2"></td>
-              <td className="py-2 font-semibold">{totalAmount}k</td>
+              <td className="py-2 font-semibold">Rp{order.items.reduce((acc, item) => acc + item.qty * item.price, 0)}</td>
             </tr>
           </tbody>
         </table>
@@ -149,5 +144,5 @@ export function Tables() {
   );
 }
 
-export default Tables;
+export default Receipt;
 
