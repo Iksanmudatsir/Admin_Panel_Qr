@@ -105,7 +105,7 @@ export function Item() {
                 {items.filter((item, id) => item.category === openTab).map((item, id) => {
                   return (
                     <tr key={id}>
-                      <td className="px-4 py-2 text-[#c50d11] font-semibold">{item.name}</td>
+                      <td className="px-4 py-2 text-[#c50d11] font-semibold">{item.title}</td>
                       <td className="px-4 py-2">Rp{item.price}</td>
                       <td className="px-4 py-2">
                         <Button className="px-4 py-2 text-black bg-transparent">Edit</Button>
