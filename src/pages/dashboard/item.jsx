@@ -13,15 +13,15 @@ import data from "@/data/dataRemove";
 import AxiosInstance from "@/utils/AxiosInstance";
 
 export function Item() {
-  const [orders, setOrders] = useState([]);
+  const [items, setItems] = useState([]);
 
-  const fetchOrder = async () => {
-    await AxiosInstance.get('/order').then((res) => {
-      setOrders([...res.data]);
+  const fetchItem = async () => {
+    await AxiosInstance.get('/item').then((res) => {
+      setItems([...res.data]);
     });
   }
   
-  const [openTab, setOpenTab] = useState(1);
+  const [openTab, setOpenTab] = useState('makanan');
 
   const [showModal, setShowModal] = useState(false);
 
@@ -42,10 +42,10 @@ export function Item() {
     };
   }
 
-  // useEffect(() => {
-  //   fetchOrder();
-  //   console.log('awefewa', orders)
-  // }, [])
+  useEffect(() => {
+    fetchItem();
+    console.log('itemsmse', items)
+  }, [])
   
   return (
     <>
@@ -56,45 +56,69 @@ export function Item() {
       </div>
       <div className="container mt-12 justify-center items-center">
         <div className="flex flex-col items-center justify-center">
-          <ul className="flex space-x-8">
-            <li>
+        <ul className="flex space-x-8">
+        <li>
               <a
                 href="#"
-                onClick={() => setOpenTab(1)}
+                onClick={() => setOpenTab('makanan')}
                 className={`${
-                  openTab === 1 ? "bg-[#a64b2a] text-white font-medium text-center" : ""
+                  openTab === 'makanan' ? "bg-[#a64b2a] text-white font-medium text-center" : ""
                 } inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] shadow`}
               >
-                Foods
+                Makanan
               </a>
             </li>
             <li>
               <a
                 href="#"
-                onClick={() => setOpenTab(2)}
+                onClick={() => setOpenTab('cemilan')}
                 className={`${
-                  openTab === 2 ? "bg-[#a64b2a] text-white font-medium text-center" : ""
+                  openTab === 'cemilan' ? "bg-[#a64b2a] text-white font-medium text-center" : ""
                 } inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] rounded shadow`}
               >
-                Snack
+                Cemilan
               </a>
             </li>
             <li>
               <a
                 href="#"
-                onClick={() => setOpenTab(3)}
+                onClick={() => setOpenTab('minuman')}
                 className={`${
-                  openTab === 3 ? "bg-[#a64b2a] text-white font-medium text-center" : ""
+                  openTab === 'minuman' ? "bg-[#a64b2a] text-white font-medium text-center" : ""
                 } inline-block font-medium text-center px-4 py-2 w-36 bg-white rounded-[20px] rounded shadow`}
               >
-                Drinks
+                Minuman
               </a>
             </li>
-          </ul>
-          <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]" />
+        </ul>
+        </div>
+        <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]" />
           <div className="p-3 mt-6 w-full">
+            <table className="table-auto w-full">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2">Product Name</th>
+                  <th className="px-4 py-2">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.filter((item, id) => item.category === openTab).map((item, id) => {
+                  return (
+                    <tr key={id}>
+                      <td className="px-4 py-2 text-[#c50d11] font-semibold">{item.name}</td>
+                      <td className="px-4 py-2">Rp{item.price}</td>
+                      <td className="px-4 py-2">
+                        <Button className="px-4 py-2 text-black bg-transparent">Edit</Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        {/*
+          <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]" />
             <div className={openTab === 1 ? "block" : "hidden"}>
-              <table className="table-auto w-full">
                 <thead>
                   <tr>
                     <th className="px-4 py-2">Product Name</th>
@@ -110,7 +134,6 @@ export function Item() {
                       <td className="px-4 py-2">{item.price}k</td>
                       <td className="px-4 py-2">
                         <Button className="px-4 py-2 text-black bg-transparent">Edit</Button>
-                        {/* <Button className="ml-2 px-4 py-2 text-white bg-[#a64b2a]" onClick={() => removeItem(item)}>Remove</Button> */}
                       </td>
                     </tr>
                   ))}
@@ -160,7 +183,7 @@ export function Item() {
               </table>
             </div>
             </div>
-        </div>
+        </div> */}
         <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]"/>
             <div>
               <div className="flex w-max space-x-52 mx-auto mt-5 items-center justify-center">
