@@ -52,15 +52,15 @@ export function Item() {
       return;
     }
 
-    setIsModalOpen(true);
+    setIsModalOpenRemoved(true);
   };
 
   const handleDeleteConfirm = () => {
-    setIsModalOpen(false);
+    setIsModalOpenRemoved(false);
   };
 
   const handleDeleteCancel = () => {
-    setIsModalOpen(false);
+    setIsModalOpenRemoved(false);
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -253,29 +253,48 @@ export function Item() {
                         </Button>
                         <Button
                           className="px-4 py-2 text-white ml-2 bg-transparent bg-[#a64b2a]"
-                          onClick={handleRemoveButtonClick}
+                          onClick={handleRemoveButtonClicks}
                           disabled={selectedItemIds.length === 0}
                         >
                           Delete Item
                         </Button>
                         {isModalopenRemoved && (
-                          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
                             <div className="bg-white p-4 rounded-lg">
-                              <h2 className="text-lg font-semibold mb-4">Confirmation</h2>
-                              <p className="text-sm mb-4">Are you sure you want to delete the selected items?</p>
-                              <div className="flex justify-end">
-                                <button
+                            <button className="flex items-center justify-center text-gray-500 hover:text-red-500 ml-80" onClick={() => setIsModalOpenRemoved(false)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 fill-current" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fill-rule="evenodd" d="M3.646 3.646a.5.5 0 01.708 0L10 9.293l5.646-5.647a.5.5 0 11.708.708L10.707 10l5.647 5.646a.5.5 0 01-.708.708L10 10.707l-5.646 5.647a.5.5 0 01-.708-.708L9.293 10 3.646 4.354a.5.5 0 010-.708z" clip-rule="evenodd" fill="black" />
+                                </svg>
+                            </button>
+                            <div className="flex flex-col items-center">
+                              <div className="flex justify-center mb-4">
+                                <svg
+                                  className="w-10 h-10 text-red-500"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 15a7 7 0 110-14 7 7 0 010 14zm1-11h-2v6h2v-6zm0 8h-2v2h2v-2z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                              <p className="text-sm mb-4 font-medium">Are you sure you want to delete the selected items?</p>
+                              <div className="flex justify-center mb-4">
+                                <Button
                                   className="px-4 py-2 text-white bg-red-500 rounded-lg mr-2"
                                   onClick={handleDeleteConfirm}
                                 >
                                   Delete
-                                </button>
-                                <button
-                                  className="px-4 py-2 text-gray-500 bg-gray-200 rounded-lg"
+                                </Button>
+                                <Button
+                                  className="px-4 py-2 text-gray-500 border bg-white rounded-lg order-gray-500"
                                   onClick={handleDeleteCancel}
                                 >
                                   Cancel
-                                </button>
+                                </Button>
+                              </div>
                               </div>
                             </div>
                           </div>
