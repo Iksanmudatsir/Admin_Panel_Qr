@@ -31,6 +31,10 @@ export function Item() {
     setShowModal(false);
   };
 
+  const handleOpeneModal = () => {
+    setShowModal(true)
+  }
+
   const [isModalopenRemoved, setIsModalOpenRemoved] = useState(false);
 
   const handleDeleteConfirm = () => {
@@ -198,8 +202,8 @@ export function Item() {
         </div>
         <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]" />
           <div className="p-3 mt-6 w-full">
-            <table className="table-auto w-full">
-              <thead>
+            <table className="table-auto w-full border border-gray-300">
+              <thead className="border border-gray-300">
                 <tr>
                   <th className="px-4 py-2 text-left">No</th>
                   <th className="px-4 py-2 text-left">Product Name</th>
@@ -214,13 +218,13 @@ export function Item() {
                 {items.filter((item, id) => item.category === openTab).map((item, id) => {
                   return (
                     <tr key={id}>
-                      <td className="px-4 py-2">{id + 1}</td>
-                      <td className="px-4 py-2 text-[#c50d11] font-semibold w-2/5">{item.title}</td>
-                      <td className="px-4 py-2">
+                      <td className="px-4 py-2 border-b border-gray-300">{id + 1}</td>
+                      <td className="px-4 py-2 text-[#c50d11] font-semibold w-2/5 border-b border-gray-300">{item.title}</td>
+                      <td className="px-4 py-2 border-b border-gray-300">
                         <img src={BASE_URL_MENU + '/' + item.imageURL} />
                       </td>
-                      <td className="px-4 py-2">Rp{item.price}</td>
-                      <td className="px-4 py-2 w-60">
+                      <td className="px-4 py-2 border-b border-gray-300 w-60">Rp{item.price}</td>
+                      <td className="px-4 py-2 w-60 border-b border-gray-300">
                         <div className="flex justify-between">
                           <Button 
                             className="px-4 py-2 text-white bg-blue-700"
@@ -230,7 +234,10 @@ export function Item() {
                           </Button>
                           <Button 
                             className="px-4 py-2 text-white bg-red-900"
-                            onClick={() => handleDeleteButtonClick(item.id, item.title)}
+                            onClick={() => {
+                              handleDeleteButtonClick(item.id, item.title);
+                              setIsModalOpenRemoved(true);
+                            }}
                           >
                             Delete
                           </Button>
@@ -315,10 +322,13 @@ export function Item() {
                   </div>
                   <p>Price</p>
                     <input type="number" id="price" className="px-2 py-1 border border-gray-300 rounded-md mb-4" value={newPrice} onChange={(e) => setNewPrice(e.target.value)} />
-                  <p>Product Description</p>
-                    <div>
-                      <input type="text" id="description" name="description" className="py-2 px-2 w-full rounded-[5px] pl-2 border border-gray-300" value={newDesc} onChange={(e) => setNewDesc(e.target.value)}></input>
-                    </div>
+                  {/* <p>Product Description</p> */}
+                  <div className="flex flex-col">
+                  <label htmlFor="description" className="block mb-1 break-words">
+                    Product Description
+                  </label>
+                      <input type="text" id="description" name="description" className="py-2 px-2 w-full rounded-[5px] pl-2 border border-gray-300 break-words" contenteditable="true" value={newDesc} onChange={(e) => setNewDesc(e.target.value)}></input>                  
+                  </div>
                   <div className="my-4">
                     <div className="relative inline-block">
                       <img className="w-auto h-28 rounded" src={BASE_URL_MENU + '/' + newImageURL} alt="Preview" />
@@ -397,7 +407,7 @@ export function Item() {
           <div className="mt-5 mx-auto w-96 h-1.5 rounded-[15px] bg-[#a64b2a]"/>
             <div>
               <div className="flex w-max space-x-52 mx-auto mt-5 items-center justify-center">
-                <Button className="bg-[#a64b2a] font-medium w-36 rounded-[20px] shadow" onClick={() => setShowModal(true)}>+ add new</Button>
+                <Button className="bg-[#a64b2a] font-medium w-36 rounded-[20px] shadow" onClick={handleOpeneModal}>+ add new</Button>
                   {showModal && <Modal onClose={handleModalClose} />}
               </div>
             </div>
