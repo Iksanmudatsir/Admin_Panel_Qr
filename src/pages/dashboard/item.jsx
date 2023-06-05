@@ -44,6 +44,10 @@ export function Item() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   
+  const [isDone, setIsDone] = useState(false);
+  const [doneMessage, setIsDoneMessage] = useState();
+  
+  const [editNo, setEditNo] = useState();
 
   // field data
   const [newTitle, setNewTitle] = useState()
@@ -52,15 +56,29 @@ export function Item() {
   const [newDesc, setNewDesc] = useState()
   const [newImageURL, setNewImageURL] = useState()
 
-  const handleEditButtonClick = (item) => {
+  const handleEditButtonClick = (item, no) => {
     setSelectedItem(item);
     setNewTitle(item.title)
     setNewCategory(item.category)
     setNewPrice(item.price)
     setNewDesc(item.desc)
     setNewImageURL(item.imageURL)
+
+    setEditNo(no);
     
-    setIsModalOpen(true);
+    setIsDone(false)
+    setIsModalOpen(true)
+  }
+
+  const handleDeleteButtonClick = async (id, title) => {
+    await AxiosInstance.post(`/item/delete/${id}`)
+      .then(() => {
+        fetchItem()
+      })
+      .then(() => {
+        setIsDone(true);
+        setIsDoneMessage(`Berhasil menghapus ${title}`)
+      });
   }
   
   const handleSaveChanges = async (id) => {
@@ -72,19 +90,18 @@ export function Item() {
       desc: newDesc,
       imageURL: newImageURL
     }).then(() => {
-      setIsModalOpen(false)
+      setIsModalOpen(false);
     }).then(() => {
-      window.location.reload(false);
-    })
+      setIsDone(true);
+      setIsDoneMessage(`Berhasil mengedit item ${newTitle}`)
+    }).then(async () => {
+      await fetchItem();
+    });
   }
 
   const handleCancelChanges = () => {
     setIsModalOpen(false);
   }
-
-  const [selectedItemId, setSelectedItemId] = useState(null);
-
-  const [selectedItemIds, setSelectedItemIds] = useState([]);
 
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -108,7 +125,7 @@ export function Item() {
     if (file && validateFile(file)) {
       setSelectedFile(file);
     } else {
-      setSelectedfile(null)
+      setSelectedFile(null)
     }
   }
 
@@ -124,11 +141,18 @@ export function Item() {
 
   useEffect(() => {
     fetchItem();
-    console.log('itemsmse', items)
   }, [])
   
   return (
     <>
+    {
+      isDone ? 
+      (
+        <div className="animate-fade animate-duration-[600ms] animate-delay-[2000ms] animate-ease-linear animate-reverse absolute">
+          {doneMessage}
+        </div>
+      ) : null
+    }
     <div className="mt-12">
       <Typography className="w-56 h-8 text-2xl font-medium text-left text-black">
         Items
@@ -177,30 +201,40 @@ export function Item() {
             <table className="table-auto w-full">
               <thead>
                 <tr>
-                <th className="px-4 py-2 text-left w-0">
-                  Image
-                </th>
+                  <th className="px-4 py-2 text-left">No</th>
                   <th className="px-4 py-2 text-left">Product Name</th>
+                  <th className="px-4 py-2 text-left w-0">
+                    Image
+                  </th>
                   <th className="px-4 py-2 text-left">Price</th>
-                  <th className="px-4 py-2 text-left"></th>
+                  <th className="px-4 py-2 text-left">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {items.filter((item, id) => item.category === openTab).map((item, id) => {
                   return (
                     <tr key={id}>
-                      <td className="px-4 py-2">
-                      <img src={BASE_URL_MENU + '/' + item.imageURL} />
-                      </td>
+                      <td className="px-4 py-2">{id + 1}</td>
                       <td className="px-4 py-2 text-[#c50d11] font-semibold w-2/5">{item.title}</td>
+                      <td className="px-4 py-2">
+                        <img src={BASE_URL_MENU + '/' + item.imageURL} />
+                      </td>
                       <td className="px-4 py-2">Rp{item.price}</td>
-                      <td className="px-4 py-2 w-56">
-                        <Button 
-                          className="px-4 py-2 text-white bg-[#a62b2a]"
-                          onClick={() => handleEditButtonClick(item)}
-                        >
-                          Edit
-                        </Button>
+                      <td className="px-4 py-2 w-60">
+                        <div className="flex justify-between">
+                          <Button 
+                            className="px-4 py-2 text-white bg-blue-700"
+                            onClick={() => handleEditButtonClick(item, id + 1)}
+                          >
+                            Edit
+                          </Button>
+                          <Button 
+                            className="px-4 py-2 text-white bg-red-900"
+                            onClick={() => handleDeleteButtonClick(item.id, item.title)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
                         {isModalopenRemoved && (
                           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
                             <div className="bg-white p-4 rounded-lg">
