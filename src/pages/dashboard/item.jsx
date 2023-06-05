@@ -11,6 +11,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { foods, snack, drinks } from "../../data/dataFood"
 import data from "@/data/dataRemove";
 import AxiosInstance from "@/utils/AxiosInstance";
+import { Modal } from "./modalAdd";
 
 export function Item() {
   const [items, setItems] = useState([]);
@@ -24,6 +25,10 @@ export function Item() {
   const [openTab, setOpenTab] = useState('makanan');
 
   const [showModal, setShowModal] = useState(false);
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
 
   const EditModal = ({ isOpen, onClose, onSave, defaultValue }) => {
     // Set up local state for the input value
@@ -424,12 +429,10 @@ export function Item() {
             <div>
               <div className="flex w-max space-x-52 mx-auto mt-5 items-center justify-center">
                 <Button className="bg-[#a64b2a] font-medium w-36 rounded-[20px] shadow" onClick={() => setShowModal(true)}>+ add new</Button>
-                 {showModal && (
-                   <Modal onClose={() => setShowModal(false)} />
-                 )}
+                  {showModal && <Modal onClose={handleModalClose} />}
               </div>
             </div>
-      </div>
+        </div>
     </>
   );
 }
