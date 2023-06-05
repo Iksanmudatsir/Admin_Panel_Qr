@@ -50,8 +50,6 @@ export function Item() {
   
   const [isDone, setIsDone] = useState(false);
   const [doneMessage, setIsDoneMessage] = useState();
-  
-  const [editNo, setEditNo] = useState();
 
   // field data
   const [newTitle, setNewTitle] = useState()
@@ -67,23 +65,21 @@ export function Item() {
     setNewPrice(item.price)
     setNewDesc(item.desc)
     setNewImageURL(item.imageURL)
-
-    setEditNo(no);
     
     setIsDone(false)
     setIsModalOpen(true)
   }
 
-  const handleDeleteButtonClick = async (id, title) => {
-    await AxiosInstance.post(`/item/delete/${id}`)
-      .then(() => {
-        fetchItem()
-      })
-      .then(() => {
-        setIsDone(true);
-        setIsDoneMessage(`Berhasil menghapus ${title}`)
-      });
-  }
+  // const handleDeleteButtonClick = async (id, title) => {
+  //   await AxiosInstance.post(`/item/delete/${id}`)
+  //     .then(() => {
+  //       fetchItem()
+  //     })
+  //     .then(() => {
+  //       setIsDone(true);
+  //       setIsDoneMessage(`Berhasil menghapus ${title}`)
+  //     });
+  // }
   
   const handleSaveChanges = async (id) => {
     await AxiosInstance.post(`/item/update/${id}`,
@@ -145,7 +141,7 @@ export function Item() {
 
   useEffect(() => {
     fetchItem();
-  }, [])
+  }, [showModal])
   
   return (
     <>
@@ -232,7 +228,7 @@ export function Item() {
                           >
                             Edit
                           </Button>
-                          <Button 
+                          {/* <Button 
                             className="px-4 py-2 text-white bg-red-900"
                             onClick={() => {
                               handleDeleteButtonClick(item.id, item.title);
@@ -240,7 +236,7 @@ export function Item() {
                             }}
                           >
                             Delete
-                          </Button>
+                          </Button> */}
                         </div>
                         {isModalopenRemoved && (
                           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
@@ -291,7 +287,7 @@ export function Item() {
             </table>
             {isModalOpen && selectedItem && (
               <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                <div className="bg-white p-4 rounded-lg p-6">
+                <div className="bg-white rounded-lg p-6">
                   <div className="flex justify-between items-center">
                   <Typography className="text-lg font-bold text-left text-[#181818]">
                     Edit Product
@@ -377,13 +373,15 @@ export function Item() {
                       onDragOver={handleDragOver}
                       onDrop={handleDrop}
                     />
-                    {selectedFile ? (
-                      <div>
-                        <p className="text-sm">Selected File: {selectedFile.name}</p>
-                        <p className="text-sm">File Size: {selectedFile.size} bytes</p>
-                        <img src={URL.createObjectURL(selectedFile)} alt="Preview" className="mt-2 max-h-20" />
-                      </div>
-                    ) : null}
+                    {
+                      selectedFile ? (
+                        <div>
+                          <p className="text-sm">Selected File: {selectedFile.name}</p>
+                          <p className="text-sm">File Size: {selectedFile.size} bytes</p>
+                          <img src={URL.createObjectURL(selectedFile)} alt="Preview" className="mt-2 max-h-20" />
+                        </div>
+                      ) : null
+                    }
                   </div>
                   </div>
                   <div className="flex justify-between">
