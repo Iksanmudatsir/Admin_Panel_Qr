@@ -12,6 +12,7 @@ import { foods, snack, drinks } from "../../data/dataFood"
 import data from "@/data/dataRemove";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Modal } from "./modalAdd";
+import { BASE_URL_MENU } from "@/utils/constant";
 
 export function Item() {
   const [items, setItems] = useState([]);
@@ -30,35 +31,7 @@ export function Item() {
     setShowModal(false);
   };
 
-  const EditModal = ({ isOpen, onClose, onSave, defaultValue }) => {
-    // Set up local state for the input value
-    const [value, setValue] = useState(defaultValue);
-  
-    // Handle the input value change
-    const handleChange = (e) => {
-      setValue(e.target.value);
-    };
-  
-    // Handle the save button click
-    const handleSave = () => {
-      onSave(value);
-    };
-  }
-
-  const handleRemoveButtonClick = (itemId) => {
-    const updatedTableData = tableData.filter(item => item.id !== itemId);
-    setTableData(updatedTableData);
-  };
-
   const [isModalopenRemoved, setIsModalOpenRemoved] = useState(false);
-
-  const handleRemoveButtonClicks = () => {
-    if (selectedItemIds.length === 0) {
-      return;
-    }
-
-    setIsModalOpenRemoved(true);
-  };
 
   const handleDeleteConfirm = () => {
     setIsModalOpenRemoved(false);
@@ -69,73 +42,49 @@ export function Item() {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [selectedItem, setSelectedItem] = useState(null);
   
+
+  // field data
+  const [newTitle, setNewTitle] = useState()
+  const [newCategory, setNewCategory] = useState()
+  const [newPrice, setNewPrice] = useState()
+  const [newDesc, setNewDesc] = useState()
+  const [newImageURL, setNewImageURL] = useState()
+
   const handleEditButtonClick = (item) => {
     setSelectedItem(item);
+    setNewTitle(item.title)
+    setNewCategory(item.category)
+    setNewPrice(item.price)
+    setNewDesc(item.desc)
+    setNewImageURL(item.imageURL)
+    
     setIsModalOpen(true);
   }
-
-  // const handleEditButtonClick = (itemId) => {
-  //   fetchItemById(itemId);
-  //   setIsModalOpen(true);
-  // };
-
-  // const fetchItemById = async (itemId) => {
-  //   try {
-  //     const response = await AxiosInstance.get(`/item/:id`);
-  //     setSelectedItem(response.data);
-  //   } catch (error) {
-  //     console.log('Error fetching item:', error);
-  //   }
-  // };
-
-  const handleSaveChanges = () => {
-    setIsModalOpen(false)
+  
+  const handleSaveChanges = async (id) => {
+    await AxiosInstance.post(`/item/update/${id}`,
+    {
+      title: newTitle,
+      category: newCategory,
+      price: newPrice,
+      desc: newDesc,
+      imageURL: newImageURL
+    }).then(() => {
+      setIsModalOpen(false)
+    }).then(() => {
+      window.location.reload(false);
+    })
   }
 
-  const handleSelectAll = (event) => {
-    const isChecked = event.target.checked;
-    const updatedItems = items.map((item) => ({
-      ...item,
-      selected: isChecked,
-    }));
-    setItems(updatedItems);
-  };
-
-  const handleCategoryChange = (event) => {
-  const selectedCategory = event.target.value};
+  const handleCancelChanges = () => {
+    setIsModalOpen(false);
+  }
 
   const [selectedItemId, setSelectedItemId] = useState(null);
 
   const [selectedItemIds, setSelectedItemIds] = useState([]);
-
-  const handleCheckboxChange = (id) => {
-    const updatedSelectedItems = [...selectedItemIds];
-    const itemIndex = updatedSelectedItems.indexOf(id);
-    
-    if (itemIndex === -1) {
-      // Add the item ID to selected items
-      updatedSelectedItems.push(id);
-    } else {
-      // Remove the item ID from selected items
-      updatedSelectedItems.splice(itemIndex, 1);
-    }
-    
-    setSelectedItemIds(updatedSelectedItems);
-    
-    setItems((prevItems) => {
-      const updatedItems = prevItems.map((item, index) => {
-        if (index === id && item.category === openTab) {
-          return { ...item, selected: !item.selected };
-        } else {
-          return item;
-        }
-      });
-      return updatedItems;
-    });
-  };
 
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -229,7 +178,7 @@ export function Item() {
               <thead>
                 <tr>
                 <th className="px-4 py-2 text-left w-0">
-                  <input type="checkbox" onChange={handleSelectAll} />
+                  Image
                 </th>
                   <th className="px-4 py-2 text-left">Product Name</th>
                   <th className="px-4 py-2 text-left">Price</th>
@@ -241,27 +190,16 @@ export function Item() {
                   return (
                     <tr key={id}>
                       <td className="px-4 py-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedItemIds.includes(id)}
-                        onChange={() => handleCheckboxChange(id)}
-                      />
+                      <img src={BASE_URL_MENU + '/' + item.imageURL} />
                       </td>
                       <td className="px-4 py-2 text-[#c50d11] font-semibold w-2/5">{item.title}</td>
                       <td className="px-4 py-2">Rp{item.price}</td>
                       <td className="px-4 py-2 w-56">
                         <Button 
-                          className="px-4 py-2 text-black bg-transparent"
-                          onClick={handleEditButtonClick}
+                          className="px-4 py-2 text-white bg-[#a62b2a]"
+                          onClick={() => handleEditButtonClick(item)}
                         >
                           Edit
-                        </Button>
-                        <Button
-                          className="px-4 py-2 text-white ml-2 bg-transparent bg-[#a64b2a]"
-                          onClick={handleRemoveButtonClicks}
-                          disabled={selectedItemIds.length === 0}
-                        >
-                          Delete Item
                         </Button>
                         {isModalopenRemoved && (
                           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
@@ -325,33 +263,31 @@ export function Item() {
                  </div>
                   <hr className="w-full my-2"/>
                   <div className="flex justify-between items-center">
-                    <h3>Product Name  {selectedItem.title}</h3>
-                    <p className="mr-40">Category {selectedItem.category}</p>
+                    <h3>Product Name</h3>
+                    <p className="mr-40">Category</p>
                   </div>
                   <div className="flex items-center justify-between mb-2">
-                    <input type="text" id="product-name" className="px-2 py-1 border border-gray-300 rounded-md mr-4" placeholder= {selectedItem.title} />
+                    <input type="text" id="product-name" className="px-2 py-1 border border-gray-300 rounded-md mr-4" value={newTitle} onChange={(e) => setNewTitle(e.target.value)}/>
                     <select
                       id="Category"
                       className="px-2 pr-32 py-1 border border-gray-300 rounded-md w-full"
-                      value={selectedItem.category}
-                      onChange={handleCategoryChange}
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
                     >
                       <option value="makanan">Makanan</option>
                       <option value="cemilan">Cemilan</option>
                       <option value="minuman">Minuman</option>
                     </select>
-                    {/* <input type="text" id="Category" className="px-2 py-1 border border-gray-300 rounded-md" placeholder={selectedItem.category} /> */}
                   </div>
-                  <p>Price {selectedItem.price}</p>
-                    <input type="number" id="price" className="px-2 py-1 border border-gray-300 rounded-md mb-4" placeholder={selectedItem.price} />
-                  <p>Product Details {selectedItem.description}</p>
+                  <p>Price</p>
+                    <input type="number" id="price" className="px-2 py-1 border border-gray-300 rounded-md mb-4" value={newPrice} onChange={(e) => setNewPrice(e.target.value)} />
+                  <p>Product Description</p>
                     <div>
-                      <textarea id="description" name="description" placeholder={selectedItem.description} rows="3" className="px-2 py-1 w-full rounded-[5px] pl-2 border border-gray-300"></textarea>
+                      <input type="text" id="description" name="description" className="py-2 px-2 w-full rounded-[5px] pl-2 border border-gray-300" value={newDesc} onChange={(e) => setNewDesc(e.target.value)}></input>
                     </div>
-
                   <div className="my-4">
                     <div className="relative inline-block">
-                      <img className="w-auto h-28 rounded" src="/public/img/bg_page.jpg" alt="Preview" />
+                      <img className="w-auto h-28 rounded" src={BASE_URL_MENU + '/' + newImageURL} alt="Preview" />
                       <button
                         className="absolute right-0 top-0 mb-2 ml-2 text-white hover:text-red-500"
                         onClick={() => setImage(null)}
@@ -366,14 +302,6 @@ export function Item() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                       </button>
-                    {/* {selectedItem.item.map((image, index) => (
-                      <img
-                        key={index}
-                        src={items?.imageURL}
-                        alt={`Product Image ${index + 1}`}
-                        className="w-20 h-20 object-cover rounded-lg mt-2"
-                      />
-                    ))} */}
                     </div>
                   </div>
                   <div>
@@ -414,13 +342,20 @@ export function Item() {
                     ) : null}
                   </div>
                   </div>
-                  {/* Add close button */}
-                  <Button
-                    className="px-4 py-2 bg-[#a64b2a] text-white rounded-lg mt-4"
-                    onClick={handleSaveChanges}
-                  >
-                    Save All
-                  </Button>
+                  <div className="flex justify-between">
+                    <Button
+                      className="px-4 py-2 bg-[#fff] text-[#a64b2b] border-2 border-[#a64b2a] rounded-lg mt-4"
+                      onClick={() => handleCancelChanges()}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className="px-4 py-2 bg-[#a64b2a] text-white rounded-lg mt-4"
+                      onClick={() => handleSaveChanges(selectedItem.id)}
+                    >
+                      Save
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
