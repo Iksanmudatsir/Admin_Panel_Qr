@@ -6,6 +6,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Order, Item, Receipt, Notifications } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
+import Home from "./pages/dashboard/home";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -19,7 +20,7 @@ export const routes = [
         icon: <HomeIcon {...icon} />,
         name: "Home",
         path: "/home",
-        // element: <Order />,
+        element: <Home />,
       },
       {
         icon: <HomeIcon {...icon} />,
