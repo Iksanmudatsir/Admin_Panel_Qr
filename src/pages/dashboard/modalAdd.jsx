@@ -15,7 +15,8 @@ export function Modal({ onClose }) {
     onClose();
   };
 
-  const handleAddNew = async () => {
+  const handleAddNew = async (e) => {
+    e.preventDefault();
     formData.append('title', title);
     formData.append('category', category);
     formData.append('price', price);
@@ -28,8 +29,9 @@ export function Modal({ onClose }) {
         headers: {
           "Content-Type": "multipart/form-data"
         },
-      })
+      }).then((res) => res);
     onClose();
+
   };
 
   const handleFileUpload = (event) => {
@@ -52,7 +54,7 @@ export function Modal({ onClose }) {
   }
 
   return (
-    <div className="fixed z-10 inset-0 overflow-y-auto">
+    <form onSubmit={(e) => handleAddNew(e)} className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex mx-auto items-center justify-center min-h-screen">
         <div className="fixed inset-0 bg-black opacity-50"></div>
         <div className="bg-[#F3F3F3] rounded-[5px] w-3/5 p-6 relative flex-row">
@@ -111,13 +113,24 @@ export function Modal({ onClose }) {
                   name="image"
                   className="opacity-0 absolute top-0 left-0 w-full h-full"
                   onChange={handleFileUpload}
+                  required
                 />
               </label>
             </div>
           </div>
           <div>
             <label htmlFor="name" className="block font-medium text-sm text-[#181818] pb-1">Name</label>
-            <input type="text" id="name" name="name" placeholder="input" className="w-full rounded-[5px] bg-white pl-2 h-8" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Item Nae"
+              // className="w-full rounded-[5px] bg-white pl-2 h-8"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
           </div>
           <div>
             <label htmlFor="category" className="block font-medium text-sm text-[#181818] pb-1">Category</label>
@@ -132,7 +145,16 @@ export function Modal({ onClose }) {
           </div>
           <div>
             <label htmlFor="price" className="block font-medium text-sm text-[#181818] pb-1">Price</label>
-            <input type="number" id="price" name="price" placeholder="price" className="w-full rounded-[5px] bg-white pl-2 h-8" value={price} onChange={(e) => setPrice(e.target.value)} />
+            <input
+              type="number"
+              id="price"
+              name="price"
+              placeholder="in Rp"
+              className="w-full rounded-[5px] bg-white pl-2 h-8"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
           </div>
           {/* <div>
             <label htmlFor="dish" className="block font-medium text-sm text-[#181818] pb-1">Dish</label>
@@ -140,14 +162,19 @@ export function Modal({ onClose }) {
           </div> */}
           <div>
             <label htmlFor="description" className="block font-medium text-sm text-[#181818] pb-1">Description</label>
-            <textarea id="description" name="description" placeholder="add description" rows="3" className="w-full rounded-[5px] bg-white pl-2" value={desc} onChange={(e) => setDesc(e.target.value)}></textarea>
+            <textarea id="description" name="description" placeholder="add description" rows="3" className="w-full rounded-[5px] bg-white pl-2" value={desc} onChange={(e) => setDesc(e.target.value)} />
           </div>
           <div className="mt-6 flex justify-between">
             <Button onClick={() => handleCancel()} className="bg-gray-400 text-white rounded-md py-2 px-4 font-medium ml-2" ripple={true}>Cancel</Button>
-            <Button onClick={() => handleAddNew()} className="bg-[#a64b2a] text-white rounded-md py-2 px-4 font-medium" ripple={true}>+ Add Item</Button>
+            <Button
+              type="submit"
+              // onClick={(e) => handleAddNew(e)}
+              className="bg-[#a64b2a] text-white rounded-md py-2 px-4 font-medium"
+            // ripple={true}
+            >+ Add Item</Button>
           </div>
         </div>
       </div>
-    </div>
+    </form >
   );
 }

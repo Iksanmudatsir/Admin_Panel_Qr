@@ -282,7 +282,8 @@ export function Item() {
                       </td>
                     </tr>
                   );
-                })}
+                })
+              }
               </tbody>
             </table>
             {isModalOpen && selectedItem && (

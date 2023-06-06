@@ -11,4 +11,9 @@ const getToken = () => {
   return storedAuth?.token
 }
 
+const verifyAuth = () => {
+  const token = getToken();
+  return token ? true : false;
+}
+
 export { storeAuth, removeAuth, getToken };
