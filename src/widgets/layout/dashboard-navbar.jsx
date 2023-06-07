@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
   Navbar,
   Typography,
@@ -19,18 +19,53 @@ import {
   ClockIcon,
   CreditCardIcon,
   Bars3Icon,
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 import {
   useMaterialTailwindController,
   setOpenConfigurator,
   setOpenSidenav,
 } from "@/context";
+import { useState, useRef, useEffect } from "react";
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState (false);
+  const [showConfirmation, setShowConfirmaton] = useState(false);
+
+  const dropdownRef = useRef(null);
+
+  const handleOutsideClick = (event) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target)
+    ) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+  const navigate = useNavigate();
+
+  const onClickHandler = async () => {
+    removeAuth();
+    navigate('/login');
+  };
+
+  const handleLogout = () => {
+    setShowConfirmaton(false);
+  }
 
   return (
     <Navbar
@@ -70,9 +105,9 @@ export function DashboardNavbar() {
           </Typography>
         </div>
         <div className="flex items-center">
-          <div className="mr-auto md:mr-4 md:w-56">
+          {/* <div className="mr-auto md:mr-4 md:w-56">
             <Input label="Type here" />
-          </div>
+          </div> */}
           <IconButton
             variant="text"
             color="blue-gray"
@@ -81,7 +116,93 @@ export function DashboardNavbar() {
           >
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
-          <Button
+          {/* Profile */}
+          <div className="relative">
+            <Button
+              variant="text"
+              color="blue-gray"
+              className="hidden items-center gap-1 px-4 xl:flex"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
+                <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+              </Button>
+              <IconButton
+                variant="text"
+                color="blue-gray"
+                className="grid xl:hidden"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                >
+                  <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+                </IconButton>
+
+                {isDropdownOpen && (
+                  <div 
+                    className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow"
+                    ref={dropdownRef}
+                    >
+                    <div>
+                      <button
+                        type="button"
+                        className="w-full px-4 py-3 text-sm text-left text-black hover:bg-gray-100 border-b"
+                        // onClick={() => setShowConfirmaton(true)}
+                        >
+                          nama
+                        </button>
+                        <button
+                          type="button"
+                          className="w-full px-4 py-3 text-sm text-left text-black hover:bg-gray-100 border-t flex"
+                          onClick={() => setShowConfirmaton(true)}
+                          >
+                            <ArrowLeftOnRectangleIcon className="w-5 h-5 text-inherit flex mr-1" />
+                            Logout
+                          </button>
+                    </div>
+                  </div>
+                )}
+          </div>
+
+          {/* Configuration */}
+          <IconButton
+            variant="text"
+            color="blue-gray"
+            onClick={() => setOpenConfigurator(dispatch, true)}
+            >
+              <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
+            </IconButton>
+
+          {/* Logout */}
+          {showConfirmation && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 pl-32 z-50">
+              <div className="bg-white p-4 rounded-lg">
+                <div className="flex flex-col items-center p-1">
+                  <div className="flex justify-center flex-col mb-4">
+                    <UserCircleIcon className="w-10 h-10 text-red-500" />
+                    <div className="mt-2 text-sm text-left text-black font-semibold flex justify-center">nama</div>
+                  </div>
+                  <p className="text-sm mb-4 font-medium text-black text-center flex">Are you sure you want to logout?</p>
+                  <div className="flex justify-center">
+                    <Button
+                      type="button"
+                      className="px-4 py-2 text-white bg-red-500 rounded-lg mr-2"
+                      onClick={() => onClickHandler()}
+                      fullWidth
+                      >
+                        Logout
+                      </Button>
+                      <Button
+                        type="button"
+                        className="px-4 py-2 text-gray-500 border bg-white rounded-lg order-gray-500"
+                        onClick={() => setShowConfirmaton(false)}
+                        >
+                          Cancel
+                        </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* <Button
             variant="text"
             color="blue-gray"
             className="hidden items-center gap-1 px-4 xl:flex"
@@ -102,7 +223,7 @@ export function DashboardNavbar() {
             onClick={() => setOpenConfigurator(dispatch, true)}
           >
             <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
-          </IconButton>
+          </IconButton> */}
           <Menu>
             <MenuHandler>
               <IconButton variant="text" color="blue-gray">
