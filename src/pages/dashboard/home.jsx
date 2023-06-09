@@ -19,7 +19,7 @@ const Home = () => {
     }
 
     const fetchOrder = async () => {
-        await AxiosInstance.get('/order').then((res) => {
+        await AxiosInstance.get('/order?qDate=today').then((res) => {
             setProcessOrders([...res.data.filter((elem) => elem.status === 'sedang diproses')]);
             setDoneOrders([...res.data.filter((elem) => elem.status === 'selesai')])
         });
@@ -27,8 +27,8 @@ const Home = () => {
 
     const getTodayIncomes = () => {
         const totalIncomes = doneOrders.reduce((acc, order) => {
-            const item = order.items;
-            const itemPrice = item.reduce((sum, item) => sum + item.price, 0);
+            const items = order.items;
+            const itemPrice = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
             return acc + itemPrice;
         }, 0);
 
@@ -56,9 +56,6 @@ const Home = () => {
             fetchItem(),
             fetchOrder()
         ]);
-
-        console.log(doneOrders);
-        console.log(getTodayIncomes())
     }, [])
 
     return (

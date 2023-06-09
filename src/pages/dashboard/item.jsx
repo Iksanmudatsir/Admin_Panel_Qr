@@ -51,6 +51,9 @@ export function Item() {
   const [isDone, setIsDone] = useState(false);
   const [doneMessage, setIsDoneMessage] = useState();
 
+  const [idToDelete, setIdToDelete] = useState();
+  const [titleToDelete, setTitleToDelete] = useState();
+
   // field data
   const [newTitle, setNewTitle] = useState()
   const [newCategory, setNewCategory] = useState()
@@ -70,16 +73,19 @@ export function Item() {
     setIsModalOpen(true)
   }
 
-  // const handleDeleteButtonClick = async (id, title) => {
-  //   await AxiosInstance.post(`/item/delete/${id}`)
-  //     .then(() => {
-  //       fetchItem()
-  //     })
-  //     .then(() => {
-  //       setIsDone(true);
-  //       setIsDoneMessage(`Berhasil menghapus ${title}`)
-  //     });
-  // }
+  const handleDeleteButtonClick = async (id, title) => {
+    await AxiosInstance.post(`/item/inactive/${id}`)
+      .then(() => {
+        fetchItem()
+      })
+      .then(() => {
+        setIsModalOpen(true)
+        setIsDone(true);
+        setIsDoneMessage(`Berhasil menghapus ${title}`)
+        setIdToDelete('')
+        setTitleToDelete('')
+      });
+  }
   
   const handleSaveChanges = async (id) => {
     await AxiosInstance.post(`/item/update/${id}`,
@@ -141,7 +147,7 @@ export function Item() {
 
   useEffect(() => {
     fetchItem();
-  }, [showModal])
+  }, [isDone])
   
   return (
     <>
@@ -213,9 +219,10 @@ export function Item() {
                 </tr>
               </thead>
               <tbody>
-                {items.filter((item, id) => item.category === openTab).map((item, id) => {
+                {
+                items.filter((item, id) => item.category === openTab && item.available === 1).map((item, id) => {
                   return (
-                    <tr key={id}>
+                    <tr key={item.id}>
                       <td className="px-4 py-2 border-b border-gray-300">{id + 1}</td>
                       <td className="px-4 py-2 text-[#c50d11] font-semibold w-2/5 border-b border-gray-300">{item.title}</td>
                       <td className="px-4 py-2 border-b border-gray-300">
@@ -230,15 +237,17 @@ export function Item() {
                           >
                             Edit
                           </Button>
-                          {/* <Button 
+                          <Button 
                             className="px-4 py-2 text-white bg-red-900"
                             onClick={() => {
-                              handleDeleteButtonClick(item.id, item.title);
                               setIsModalOpenRemoved(true);
+                              setIsDone(false)
+                              setIdToDelete(item.id)
+                              setTitleToDelete(item.title)
                             }}
                           >
                             Delete
-                          </Button> */}
+                          </Button>
                         </div>
                         {isModalopenRemoved && (
                           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
@@ -266,7 +275,10 @@ export function Item() {
                               <div className="flex justify-center mb-4">
                                 <Button
                                   className="px-4 py-2 text-white bg-red-500 rounded-lg mr-2"
-                                  onClick={handleDeleteConfirm}
+                                  onClick={() => {
+                                    handleDeleteConfirm();
+                                    handleDeleteButtonClick(idToDelete, titleToDelete);
+                                }}
                                 >
                                   Delete
                                 </Button>
