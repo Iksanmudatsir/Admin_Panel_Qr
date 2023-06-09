@@ -22,6 +22,7 @@ export function Modal({ onClose }) {
     formData.append('price', price);
     formData.append('desc', desc);
     formData.append('image', imageURL);
+    formData.append('available', 1);
 
     await AxiosInstance.post('/item',
       formData,
@@ -29,8 +30,11 @@ export function Modal({ onClose }) {
         headers: {
           "Content-Type": "multipart/form-data"
         },
-      }).then((res) => res);
-    onClose();
+      })
+      .then((res) => res)
+      .then(() => {
+        onClose();
+      })
 
   };
 
@@ -168,7 +172,7 @@ export function Modal({ onClose }) {
             <Button onClick={() => handleCancel()} className="bg-gray-400 text-white rounded-md py-2 px-4 font-medium ml-2" ripple={true}>Cancel</Button>
             <Button
               type="submit"
-              // onClick={(e) => handleAddNew(e)}
+              onClick={(e) => handleAddNew(e)}
               className="bg-[#a64b2a] text-white rounded-md py-2 px-4 font-medium"
             // ripple={true}
             >+ Add Item</Button>

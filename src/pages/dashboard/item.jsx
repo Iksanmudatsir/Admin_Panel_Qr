@@ -1,15 +1,8 @@
 import {
   Typography,
   Button,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  Checkbox,
 } from "@material-tailwind/react";
 import React, { Fragment, useEffect, useState } from "react";
-import { foods, snack, drinks } from "../../data/dataFood"
-import data from "@/data/dataRemove";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Modal } from "./modalAdd";
 import { BASE_URL_MENU } from "@/utils/constant";
@@ -79,7 +72,7 @@ export function Item() {
         fetchItem()
       })
       .then(() => {
-        setIsModalOpen(true)
+        setIsModalOpen(false)
         setIsDone(true);
         setIsDoneMessage(`Berhasil menghapus ${title}`)
         setIdToDelete('')
@@ -147,7 +140,7 @@ export function Item() {
 
   useEffect(() => {
     fetchItem();
-  }, [isDone])
+  }, [isDone, showModal])
   
   return (
     <>
