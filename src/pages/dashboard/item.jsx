@@ -148,8 +148,10 @@ export function Item() {
     {
       isDone ? 
       (
-        <div className="animate-fade animate-duration-[600ms] animate-delay-[2000ms] animate-ease-linear animate-reverse absolute">
+        <div className="animate-fade animate-duration-[600ms] animate-delay-[2000ms] animate-ease-linear animate-reverse fixed right-[35%] top-[50%] bg-black flex items-center justify-center bg-opacity-50">
+        <div className="animate-fade animate-duration-[600ms] animate-delay-[2000ms] animate-ease-linear animate-reverse fixed right-[35%] top-[50%] bg-black flex items-center justify-center bg-opacity-50 rounded-lg text-white font-normal p-10">
           {doneMessage}
+        </div>
         </div>
       ) : null
     }
@@ -206,7 +208,7 @@ export function Item() {
                   <th className="px-4 py-2 text-left w-0">
                     Image
                   </th>
-                  <th className="px-4 py-2 text-left">Price</th>
+                  <th className="px-4 py-2 text-left pl-24">Price</th>
                   <th className="px-4 py-2 text-left">Action</th>
                 </tr>
               </thead>
@@ -219,7 +221,7 @@ export function Item() {
                       <td className="px-4 py-2 border-b border-gray-300">
                         <img src={BASE_URL_MENU + '/' + item.imageURL} />
                       </td>
-                      <td className="px-4 py-2 border-b border-gray-300 w-60">Rp{item.price}</td>
+                      <td className="px-4 py-2 border-b border-gray-300 w-60 pl-24">Rp{item.price}</td>
                       <td className="px-4 py-2 w-60 border-b border-gray-300">
                         <div className="flex justify-between">
                           <Button 
@@ -287,7 +289,7 @@ export function Item() {
               </tbody>
             </table>
             {isModalOpen && selectedItem && (
-              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
                 <div className="bg-white rounded-lg p-6">
                   <div className="flex justify-between items-center">
                   <Typography className="text-lg font-bold text-left text-[#181818]">
