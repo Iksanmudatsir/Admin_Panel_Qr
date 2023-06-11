@@ -34,11 +34,13 @@ import { orderedItems, orderedItems1, orderedItems2 } from "@/data/tableReceipt"
 import AxiosInstance from "@/utils/AxiosInstance";
 
 export function Order() {
+    const currDate = new Date().toLocaleDateString("fr-CA")
+
     const [orders, setOrders] = useState([]);
 
     const fetchOrder = async () => {
-        await AxiosInstance.get('/order').then((res) => {
-            setOrders([...res.data]);
+        await AxiosInstance.get(`/order?startDate=${currDate}&&endDate=${currDate}`).then((res) => {
+            setOrders(() => [...res.data]);
         });
     }
 
@@ -49,7 +51,7 @@ export function Order() {
 
     useEffect(() => {
         fetchOrder();
-        console.log(orders);
+        console.log(currDate)
     }, [])
 
 

@@ -10,18 +10,34 @@ import {
 } from "@material-tailwind/react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { useEffect, useState } from "react";
+import Datepicker from "react-tailwindcss-datepicker";
 
 export function Receipt() {
+    const currDate = new Date().toLocaleDateString("fr-CA")
+
     const [orders, setOrders] = useState([]);
-    const [qdate, setQdate] = useState();
+    const [dateVal, setDateVal] = useState({
+        startDate: currDate,
+        endDate: currDate
+    })
+
+    const dateChangeHandler = (newValue) => {
+        setDateVal(newValue);
+    }
 
     const fetchOrder = async () => {
-        await AxiosInstance.get(`/order?qDate=`).then((res) => setOrders(() => [...res.data]));
+        await AxiosInstance.get(`/order?startDate=${dateVal.startDate}&&endDate=${dateVal.endDate}`)
+            .then((res) => {
+                console.log('gestesgas', res.data)
+                setOrders(() => [...res.data])
+            });
+
     }
 
     useEffect(() => {
         fetchOrder();
-    }, [qdate]);
+        console.log(orders)
+    }, [dateVal.startDate, dateVal.endDate]);
 
     return (
         <>
@@ -31,40 +47,14 @@ export function Receipt() {
                         Today's Receipts
                     </Typography>
                 </div>
-                <div className="relative my-3 md:w-32 mt-14">
-                    <select
-                        id="id-01"
-                        name="id-01"
-                        required
-                        className="text-white rounded-[5px] relative h-6 w-full appearance-none border-b border-slate-200 bg-[#a64b2a] px-4 text-sm text-slate-500 outline-none transition-all autofill:bg-white focus:border-emerald-500 focus-visible:outline-none focus:focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
-                        value={qdate}
-                        onChange={(e) => {
-                            setQdate(e.target.value)
-                        }}
-                    >
-                        <option value="day">Today's</option>
-                        <option value="month">This month's</option>
-                        <option value="year">This year's</option>
-                        <option value="cancel">Canceled</option>
-                    </select>
 
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="pointer-events-none absolute top-1 right-2 h-5 w-5 fill-slate-400 transition-all peer-focus:fill-emerald-500 peer-disabled:cursor-not-allowed"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-labelledby="title-01 description-01"
-                        role="graphics-symbol"
-                    >
-                        <title id="title-01">Arrow Icon</title>
-                        <desc id="description-01">Arrow incon of the select list.</desc>
-                        <path
-                            fillRule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                        />
-                    </svg>
-                </div>
+                <Datepicker
+                    useRange={false}
+                    showShortcuts={true}
+                    primaryColor={"amber"}
+                    onChange={dateChangeHandler}
+                    value={dateVal}
+                />
             </div >
             {
                 orders.filter((elem, i) => elem.status === 'selesai').map((order, id) => {

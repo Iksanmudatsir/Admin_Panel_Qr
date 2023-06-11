@@ -4,13 +4,18 @@ import { BsPeople } from 'react-icons/bs';
 import { MdDateRange } from 'react-icons/md';
 import Chart from "react-apexcharts";
 import AxiosInstance from '@/utils/AxiosInstance';
+import Datepicker from 'react-tailwindcss-datepicker';
 
 const Home = () => {
-    const currDate = new Date().toLocaleDateString('default', { day: 'numeric', month: 'long', year: 'numeric' })
+    const currDate = new Date().toLocaleDateString("fr-CA")
 
     const [items, setItems] = useState([]);
     const [processOders, setProcessOrders] = useState([]);
     const [doneOrders, setDoneOrders] = useState([])
+    const [dateVal, setDateVal] = useState({
+        start: currDate,
+        end: currDate
+    })
 
     const fetchItem = async () => {
         await AxiosInstance.get('/item?available=1').then((res) => {
@@ -19,10 +24,14 @@ const Home = () => {
     }
 
     const fetchOrder = async () => {
-        await AxiosInstance.get('/order?qDate=today').then((res) => {
+        await AxiosInstance.get(`/order?startDate=${dateVal.start}&&endDate=${dateVal.end}`).then((res) => {
             setProcessOrders([...res.data.filter((elem) => elem.status === 'sedang diproses')]);
             setDoneOrders([...res.data.filter((elem) => elem.status === 'selesai')])
         });
+    }
+
+    const dateChangeHandler = (newDateVal) => {
+        setDateVal(newDateVal);
     }
 
     const getTodayIncomes = () => {
@@ -37,7 +46,7 @@ const Home = () => {
 
     const optionBar = {
         chart: {
-            id: "basic-bar"
+            id: "Date"
         },
         xaxis: {
             categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
@@ -99,7 +108,7 @@ const Home = () => {
                         <div class="flex flex-col lg:flex-row rounded overflow-hidden h-auto lg:h-32 border shadow-lg">
                             <MdDateRange size={60} className='m-7 mt-8' />
                             <div class="rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-                                <div class="text-black font-bold text-xl mb-2 leading-tight">Date</div>
+                                <div class="text-black font-bold text-xl mb-2 leading-tight">Today Date</div>
                                 <p class="text-grey-darker text-base">{currDate}</p>
                             </div>
                         </div>
@@ -109,6 +118,10 @@ const Home = () => {
             <div class="bg-white basis-full">
                 <div class="pt-5 max-w-max max-h-max">
                     <div class="flex flex-col lg:flex-row rounded overflow-hidden border shadow-lg">
+                        <Datepicker
+                            value={dateVal}
+                            onChange={(e) => dateChangeHandler(e)}
+                        />
                         <Chart
                             options={optionBar}
                             series={seriesBar}

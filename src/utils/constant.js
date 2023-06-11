@@ -1,5 +1,5 @@
-export const BASE_URL = 'http://localhost:3000';
-// export const BASE_URL = 'http://192.168.1.6:3000'; // develop in localhost with device
+// export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'http://192.168.1.24:3000'; // develop in localhost with device
 export const BASE_URL_API = `${BASE_URL}/api`;
 
 
