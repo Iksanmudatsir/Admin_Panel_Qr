@@ -27,6 +27,7 @@ import {
   setOpenSidenav,
 } from "@/context";
 import { useState, useRef, useEffect } from "react";
+import SocketInstance from "@/utils/SocketInstance";
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -48,13 +49,39 @@ export function DashboardNavbar() {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleOutsideClick);
+  const [showNotification, setShowNotification] = useState(true);
 
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
+  // const handleClick = () => {
+  //   if (!showNotification) {
+  //     setShowNotification(true);
+  //     console.log("Notifikasi diklik");
+  //   }
+  // };
+
+useEffect(() => {
+  document.addEventListener("mousedown", handleOutsideClick);
+  
+  let timeoutId;
+
+  SocketInstance.on("receive_order", (data) => {
+    setShowNotification(true);
+    console.log("socket di header");
+  
+    clearTimeout(timeoutId);
+  
+    timeoutId = setTimeout(() => {
+      setShowNotification(false);
+    }, 10000);
+  });
+
+  // setShowNotification(true);
+  // console.log("tanpa pesanan coba");
+
+  return () => {
+    document.removeEventListener("mousedown", handleOutsideClick);
+    clearTimeout(timeoutId);
+  };
+}, [SocketInstance]);
 
   const navigate = useNavigate();
 
@@ -201,35 +228,13 @@ export function DashboardNavbar() {
               </div>
             </div>
           )}
-
-          {/* <Button
-            variant="text"
-            color="blue-gray"
-            className="hidden items-center gap-1 px-4 xl:flex"
-          >
-            <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-          </Button>
-          <IconButton
-            variant="text"
-            color="blue-gray"
-            className="grid xl:hidden"
-          >
-            <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-          </IconButton>
-
-          <IconButton
-            variant="text"
-            color="blue-gray"
-            onClick={() => setOpenConfigurator(dispatch, true)}
-          >
-            <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
-          </IconButton> */}
           <Menu>
             <MenuHandler>
               <IconButton variant="text" color="blue-gray">
                 <BellIcon className="h-5 w-5 text-blue-gray-500" />
               </IconButton>
             </MenuHandler>
+            {showNotification && (
             <MenuList className="w-max border-0">
               <MenuItem className="flex items-center gap-3">
                 <Avatar
@@ -244,7 +249,7 @@ export function DashboardNavbar() {
                     color="blue-gray"
                     className="mb-1 font-normal"
                   >
-                    <strong>New Order</strong> from Table 5
+                    <strong>New Order</strong> from table
                   </Typography>
                   <Typography
                     variant="small"
@@ -255,52 +260,8 @@ export function DashboardNavbar() {
                   </Typography>
                 </div>
               </MenuItem>
-              <MenuItem className="flex items-center gap-4">
-                <Avatar
-                  src="https://demos.creative-tim.com/material-dashboard/assets/img/team-4.jpg"
-                  alt="item-1"
-                  size="sm"
-                  variant="circular"
-                />
-                <div>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="mb-1 font-normal"
-                  >
-                    <strong>New Order</strong> from table 2
-                  </Typography>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="flex items-center gap-1 text-xs font-normal opacity-60"
-                  >
-                    <ClockIcon className="h-3.5 w-3.5" /> 5 minutes ago
-                  </Typography>
-                </div>
-              </MenuItem>
-              <MenuItem className="flex items-center gap-4">
-                <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-tr from-blue-gray-800 to-blue-gray-900">
-                  <CreditCardIcon className="h-4 w-4 text-white" />
-                </div>
-                <div>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="mb-1 font-normal"
-                  >
-                    Payment successfully completed
-                  </Typography>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="flex items-center gap-1 text-xs font-normal opacity-60"
-                  >
-                    <ClockIcon className="h-3.5 w-3.5" /> 2 days ago
-                  </Typography>
-                </div>
-              </MenuItem>
             </MenuList>
+            )}
           </Menu>
         </div>
       </div>
