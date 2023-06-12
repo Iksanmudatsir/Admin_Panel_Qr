@@ -28,15 +28,12 @@ export function Receipt() {
     const fetchOrder = async () => {
         await AxiosInstance.get(`/order?startDate=${dateVal.startDate}&&endDate=${dateVal.endDate}`)
             .then((res) => {
-                console.log('gestesgas', res.data)
                 setOrders(() => [...res.data])
             });
-
     }
 
     useEffect(() => {
         fetchOrder();
-        console.log(orders)
     }, [dateVal.startDate, dateVal.endDate]);
 
     return (
@@ -48,13 +45,13 @@ export function Receipt() {
                     </Typography>
                 </div>
                 <div className="mt-12 w-60">
-                <Datepicker
-                    useRange={false}
-                    showShortcuts={true}
-                    primaryColor={"blue"}
-                    onChange={dateChangeHandler}
-                    value={dateVal}
-                />
+                    <Datepicker
+                        useRange={false}
+                        showShortcuts={true}
+                        primaryColor={"blue"}
+                        onChange={dateChangeHandler}
+                        value={dateVal}
+                    />
                 </div>
             </div >
             {

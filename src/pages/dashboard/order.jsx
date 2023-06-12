@@ -46,7 +46,7 @@ export function Order() {
     }
 
     const onClickHandler = async (id) => {
-        await AxiosInstance.post(`/order/done/${id}`).then((res) => console.log('done', res));
+        await AxiosInstance.post(`/order/done/${id}`);
         setOrders((orders) => orders.filter((order, i) => order.order_id !== id));
     }
 

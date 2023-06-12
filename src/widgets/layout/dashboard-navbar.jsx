@@ -28,10 +28,10 @@ import {
 } from "@/context";
 import { useState, useRef, useEffect } from "react";
 import SocketInstance from "@/utils/SocketInstance";
-import { removeAuth } from "@/utils/auth";
+import { getUser, removeAuth } from "@/utils/auth";
 import AxiosInstance from "@/utils/AxiosInstance";
 
-export function DashboardNavbar({ fullName }) {
+export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
@@ -61,7 +61,6 @@ export function DashboardNavbar({ fullName }) {
 
     SocketInstance.on("receive_order", (data) => {
       setShowNotification(true);
-      console.log("socket di header");
 
       clearTimeout(timeoutId);
 
@@ -81,7 +80,6 @@ export function DashboardNavbar({ fullName }) {
   const navigate = useNavigate();
 
   const onClickHandler = () => {
-    console.log('logout')
     removeAuth();
     navigate('/login');
   };
@@ -169,7 +167,7 @@ export function DashboardNavbar({ fullName }) {
                     className="w-full px-4 py-3 text-sm text-left text-black hover:bg-gray-100 border-b"
                   // onClick={() => setShowConfirmaton(true)}
                   >
-                    {fullName}
+                    {getUser().fullname}
                   </button>
                   <button
                     type="button"
@@ -200,7 +198,7 @@ export function DashboardNavbar({ fullName }) {
                 <div className="flex flex-col items-center p-1">
                   <div className="flex justify-center flex-col mb-4">
                     <UserCircleIcon className="text-red-500" />
-                    <div className="mt-2 text-sm text-left text-black font-semibold flex justify-center">{fullName}</div>
+                    <div className="mt-2 text-sm text-left text-black font-semibold flex justify-center">{getUser().fullname}</div>
                   </div>
                   <p className="text-sm mb-4 font-medium text-black text-center flex">Are you sure you want to logout?</p>
                   <div className="flex justify-center">

@@ -30,15 +30,11 @@ export function SignIn() {
       password
     }).then((res) => {
       storeAuth(res.data);
-      navigate('/dashboard/order');
+      navigate('/dashboard/home');
     }).catch(() => {
       setIsAuth(false);
     });
   }
-
-  useEffect(() => {
-    console.log(username, password);
-  }, [username, password])
 
   return (
     <>

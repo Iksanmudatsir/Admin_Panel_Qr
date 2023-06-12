@@ -16,16 +16,6 @@ export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
 
-  const [payload, setPayload] = useState();
-  const fetchPayload = async () => {
-    await AxiosInstance.get('/auth/me')
-      .then((res) => setPayload(res.data))
-  }
-
-  useEffect(() => {
-    fetchPayload();
-  }, [])
-
   return (
     <div className="min-h-screen bg-black-50/50">
       <Sidenav
@@ -35,7 +25,7 @@ export function Dashboard() {
         }
       />
       <div className="p-4 xl:ml-80">
-        <DashboardNavbar fullName={String(payload.data.user.fullname)} />
+        <DashboardNavbar />
         <Configurator />
         {/* <IconButton
           size="lg"

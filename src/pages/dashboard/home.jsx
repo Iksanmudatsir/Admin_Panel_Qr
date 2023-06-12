@@ -49,7 +49,6 @@ const Home = () => {
         await AxiosInstance.get(`/order?startDate=${dateVal.startDate}&&endDate=${dateVal.endDate}`).then((res) => {
             const data = [];
 
-            console.log(res.data)
             let orderDate = res.data.filter((elem) => elem.status === 'selesai').map((elem) => new Date(elem.create_at).toLocaleDateString("fr-CA"));
 
             const arrDate = getDateArray(dateVal.startDate, dateVal.endDate);
