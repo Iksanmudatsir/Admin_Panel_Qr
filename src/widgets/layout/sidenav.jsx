@@ -98,7 +98,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
                 </NavLink>
               </li>
             ))}
-            <Button
+            {/* <Button
               variant="text"
               color="white"
               className={"flex items-center gap-4 px-4 capitalize" + sidenavTypes.transparent}
@@ -112,7 +112,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
               >
                 Logout
               </Typography>
-            </Button>
+            </Button> */}
           </ul>
         ))}
       </div>

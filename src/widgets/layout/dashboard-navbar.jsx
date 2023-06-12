@@ -137,7 +137,7 @@ export function DashboardNavbar() {
 
                 {isDropdownOpen && (
                   <div 
-                    className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow"
+                    className="z-50 absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow"
                     ref={dropdownRef}
                     >
                     <div>
