@@ -59,7 +59,7 @@ const Home = () => {
             }
 
             setDataChart(() => [...data])
-            setCategoriesChart(() => arrDate.map((elem) => new Date(elem).toLocaleDateString('default', { month: "long", day: "numeric" })));
+            setCategoriesChart(() => arrDate.map((elem) => new Date(elem).toLocaleDateString('id-ID', { month: "long", day: "numeric" })));
         });
     }
 
