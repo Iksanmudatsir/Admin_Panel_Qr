@@ -43,18 +43,19 @@ export function Receipt() {
         <>
             <div className="flex items-center justify-between">
                 <div className="mt-12">
-                    <Typography color="textPrimary" className="w-56 h-8 text-2xl font-medium text-left text-black">
+                    <Typography color="textPrimary" className="w-48 h-8 text-2xl font-medium text-left text-black">
                         Today's Receipts
                     </Typography>
                 </div>
-
+                <div className="mt-12 w-60">
                 <Datepicker
                     useRange={false}
                     showShortcuts={true}
-                    primaryColor={"amber"}
+                    primaryColor={"blue"}
                     onChange={dateChangeHandler}
                     value={dateVal}
                 />
+                </div>
             </div >
             {
                 orders.filter((elem, i) => elem.status === 'selesai').map((order, id) => {
