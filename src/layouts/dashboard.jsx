@@ -9,10 +9,22 @@ import {
 } from "@/widgets/layout";
 import routes from "@/routes";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
+import { useEffect, useState } from "react";
+import AxiosInstance from "@/utils/AxiosInstance";
 
 export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
+
+  const [payload, setPayload] = useState();
+  const fetchPayload = async () => {
+    await AxiosInstance.get('/auth/me')
+      .then((res) => setPayload(res.data))
+  }
+
+  useEffect(() => {
+    fetchPayload();
+  }, [])
 
   return (
     <div className="min-h-screen bg-black-50/50">
@@ -23,7 +35,7 @@ export function Dashboard() {
         }
       />
       <div className="p-4 xl:ml-80">
-        <DashboardNavbar />
+        <DashboardNavbar fullName={String(payload.data.user.fullname)} />
         <Configurator />
         {/* <IconButton
           size="lg"

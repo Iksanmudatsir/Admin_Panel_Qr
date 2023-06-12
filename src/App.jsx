@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getToken } from "./utils/auth";
 import NotFound from "./component/NotFound";
 import routes from "./routes";
+import AxiosInstance from "./utils/AxiosInstance";
 
 function App() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function App() {
         }
       }
     } else {
-
+      navigate('/login');
     }
   }, []);
 
