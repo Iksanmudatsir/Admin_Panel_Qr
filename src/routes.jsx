@@ -2,6 +2,7 @@ import {
   HomeIcon,
   UserCircleIcon,
   TableCellsIcon,
+  QueueListIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 import { Order, Item, Receipt, Notifications } from "@/pages/dashboard";
@@ -23,7 +24,7 @@ export const routes = [
         element: <Home />,
       },
       {
-        icon: <HomeIcon {...icon} />,
+        icon: <QueueListIcon {...icon} />,
         name: "Order",
         path: "/order",
         element: <Order />,
