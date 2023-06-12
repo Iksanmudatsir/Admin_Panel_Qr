@@ -7,15 +7,30 @@ import AxiosInstance from '@/utils/AxiosInstance';
 import Datepicker from 'react-tailwindcss-datepicker';
 
 const Home = () => {
-    const currDate = new Date().toLocaleDateString("fr-CA")
+    const currDate = new Date().toLocaleDateString("fr-CA");
 
     const [items, setItems] = useState([]);
     const [processOders, setProcessOrders] = useState([]);
-    const [doneOrders, setDoneOrders] = useState([])
+    const [doneOrders, setDoneOrders] = useState([]);
+    const [categoriesChart, setCategoriesChart] = useState([]);
+    const [dataChart, setDataChart] = useState([]);
     const [dateVal, setDateVal] = useState({
-        start: currDate,
-        end: currDate
+        startDate: currDate,
+        endDate: currDate
     })
+
+    const getDateArray = (start, end) => {
+        const arr = [];
+        const dt = new Date(start);
+        const dtend = new Date(end)
+
+        while (dt <= dtend) {
+            arr.push(new Date(dt).toLocaleDateString('fr-CA'));
+            dt.setDate(dt.getDate() + 1);
+        }
+
+        return arr;
+    }
 
     const fetchItem = async () => {
         await AxiosInstance.get('/item?available=1').then((res) => {
@@ -23,10 +38,28 @@ const Home = () => {
         });
     }
 
-    const fetchOrder = async () => {
-        await AxiosInstance.get(`/order?startDate=${dateVal.start}&&endDate=${dateVal.end}`).then((res) => {
+    const fetchTodayOrder = async () => {
+        await AxiosInstance.get(`/order?startDate=${currDate}&&endDate=${currDate}`).then((res) => {
             setProcessOrders([...res.data.filter((elem) => elem.status === 'sedang diproses')]);
             setDoneOrders([...res.data.filter((elem) => elem.status === 'selesai')])
+        });
+    }
+
+    const fetchOrderWithDate = async () => {
+        await AxiosInstance.get(`/order?startDate=${dateVal.startDate}&&endDate=${dateVal.endDate}`).then((res) => {
+            const data = [];
+
+            console.log(res.data)
+            let orderDate = res.data.filter((elem) => elem.status === 'selesai').map((elem) => new Date(elem.create_at).toLocaleDateString("fr-CA"));
+
+            const arrDate = getDateArray(dateVal.startDate, dateVal.endDate);
+            for (let i = 0; i < arrDate.length; i++) {
+                const orderLength = orderDate.filter((elem) => elem === arrDate[i]).length;
+                data.push(orderLength);
+            }
+
+            setDataChart(() => [...data])
+            setCategoriesChart(() => arrDate.map((elem) => new Date(elem).toLocaleDateString('default', { month: "long", day: "numeric" })));
         });
     }
 
@@ -46,26 +79,27 @@ const Home = () => {
 
     const optionBar = {
         chart: {
-            id: "Date"
+            id: "order-by-date"
         },
         xaxis: {
-            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+            categories: categoriesChart,
         }
     }
 
     const seriesBar = [
         {
-            name: "series-1",
-            data: [30, 40, 45, 50, 49, 60, 70, 91]
+            name: "Order Count",
+            data: dataChart
         }
     ]
 
     useEffect(() => {
         Promise.all([
             fetchItem(),
-            fetchOrder()
+            fetchOrderWithDate(),
+            fetchTodayOrder()
         ]);
-    }, [])
+    }, [dateVal])
 
     return (
         <div className='animate-fade-up'>
@@ -117,11 +151,16 @@ const Home = () => {
             </div>
             <div class="bg-white basis-full">
                 <div class="pt-5 max-w-max max-h-max">
-                    <div class="flex flex-col lg:flex-row rounded overflow-hidden border shadow-lg">
+                    <div class="flex-col lg:flex-row rounded overflow-hidden border shadow-lg">
+
                         <Datepicker
+                            primaryColor={'amber'}
+                            useRange={false}
+                            showShortcuts={true}
                             value={dateVal}
                             onChange={(e) => dateChangeHandler(e)}
                         />
+
                         <Chart
                             options={optionBar}
                             series={seriesBar}
