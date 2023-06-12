@@ -32,6 +32,7 @@ import {
 } from "@/data";
 import { orderedItems, orderedItems1, orderedItems2 } from "@/data/tableReceipt";
 import AxiosInstance from "@/utils/AxiosInstance";
+import SocketInstance from "@/utils/SocketInstance";
 
 export function Order() {
     const currDate = new Date().toLocaleDateString("fr-CA")
@@ -50,9 +51,11 @@ export function Order() {
     }
 
     useEffect(() => {
+        SocketInstance.on("receive_order", (data) => {
+            fetchOrder();
+        });
         fetchOrder();
-        console.log(currDate)
-    }, [])
+    }, [SocketInstance])
 
 
     return (
