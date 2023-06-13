@@ -10,14 +10,34 @@ import {
 import routes from "@/routes";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
 import { useEffect, useState } from "react";
-import AxiosInstance from "@/utils/AxiosInstance";
+
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import SocketInstance from "@/utils/SocketInstance";
 
 export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
 
+  useEffect(() => {
+    SocketInstance.on("receive_order", (data) => {
+      console.log('testset');
+      toast.info('New Order!', {
+        position: "top-right",
+        autoClose: 8000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    });
+  }, [SocketInstance]);
+
   return (
     <div className="min-h-screen bg-black-50/50">
+      <ToastContainer />
       <Sidenav
         routes={routes}
         brandImg={
@@ -48,8 +68,8 @@ export function Dashboard() {
         <div className="text-blue-gray-600">
           <Footer />
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
 
